@@ -52,6 +52,10 @@ function App() {
 function StudioLayout() {
   const location = useLocation()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [headerState, setHeaderState] = useState({
+    atTop: true,
+    hidden: false,
+  })
   const footerNav = siteMapNav.filter((link) =>
     ['/', '/services', '/work', '/process', '/contact'].includes(link.href),
   )
@@ -81,54 +85,129 @@ function StudioLayout() {
     }
   }, [mobileMenuOpen])
 
+  useEffect(() => {
+    let frameId = 0
+    let lastScrollY = window.scrollY
+
+    const updateHeaderState = () => {
+      const currentScrollY = window.scrollY
+      const atTop = currentScrollY <= 12
+      const delta = currentScrollY - lastScrollY
+
+      setHeaderState((current) => {
+        if (mobileMenuOpen) {
+          if (current.atTop === atTop && current.hidden === false) {
+            return current
+          }
+
+          return { atTop, hidden: false }
+        }
+
+        let hidden = current.hidden
+
+        if (atTop || currentScrollY <= 96) {
+          hidden = false
+        } else if (delta > 8) {
+          hidden = true
+        } else if (delta < -8) {
+          hidden = false
+        }
+
+        if (current.atTop === atTop && current.hidden === hidden) {
+          return current
+        }
+
+        return { atTop, hidden }
+      })
+
+      lastScrollY = currentScrollY
+      frameId = 0
+    }
+
+    const handleScroll = () => {
+      if (frameId !== 0) {
+        return
+      }
+
+      frameId = window.requestAnimationFrame(updateHeaderState)
+    }
+
+    updateHeaderState()
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    return () => {
+      if (frameId !== 0) {
+        window.cancelAnimationFrame(frameId)
+      }
+
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [mobileMenuOpen, location.pathname])
+
+  const headerShellClassName = [
+    'header-shell',
+    headerState.atTop ? 'header-shell-at-top' : 'header-shell-scrolled',
+    headerState.hidden && !mobileMenuOpen ? 'header-shell-hidden' : '',
+    mobileMenuOpen ? 'header-shell-menu-open' : '',
+  ]
+    .filter(Boolean)
+    .join(' ')
+
   return (
     <div className="frame">
       <div className="site" id="top">
-        <header className={`header${mobileMenuOpen ? ' header-menu-open' : ''}`}>
-          <button
-            aria-controls="mobile-nav"
-            aria-expanded={mobileMenuOpen}
-            aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-            className="mobile-menu-toggle"
-            onClick={() => setMobileMenuOpen((current) => !current)}
-            type="button"
-          >
-            <span className="mobile-menu-line" />
-            <span className="mobile-menu-line" />
-          </button>
+        <div className={headerShellClassName}>
+          <header className={`header${mobileMenuOpen ? ' header-menu-open' : ''}`}>
+            <button
+              aria-controls="mobile-nav"
+              aria-expanded={mobileMenuOpen}
+              aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+              className="mobile-menu-toggle"
+              onClick={() => setMobileMenuOpen((current) => !current)}
+              type="button"
+            >
+              <span className="mobile-menu-line" />
+              <span className="mobile-menu-line" />
+            </button>
 
-          <Link className="brand brand-desktop" to="/">
-            9Studio
-          </Link>
+            <Link className="brand brand-desktop" to="/">
+              9Studio
+            </Link>
 
-          <Link className="brand brand-mobile" to="/" onClick={() => setMobileMenuOpen(false)}>
-            9Studio
-          </Link>
+            <Link className="brand brand-mobile" to="/" onClick={() => setMobileMenuOpen(false)}>
+              9Studio
+            </Link>
 
-          <nav aria-label="Primary" className="header-nav">
-            {primaryNav.map((link) => (
-              <NavLink
-                className={({ isActive }) => (isActive ? 'is-active' : undefined)}
-                key={link.href}
-                to={link.href}
-              >
-                {link.label}
-              </NavLink>
-            ))}
-          </nav>
+            <nav aria-label="Primary" className="header-nav">
+              {primaryNav.map((link) => (
+                <NavLink
+                  className={({ isActive }) => (isActive ? 'is-active' : undefined)}
+                  key={link.href}
+                  to={link.href}
+                >
+                  {link.label}
+                </NavLink>
+              ))}
+            </nav>
 
-          <Link className="header-cta header-cta-desktop glass-button" to="/contact">
-            Book a call
-          </Link>
+            <Link className="header-cta header-cta-desktop glass-button" to="/contact">
+              Book a call
+            </Link>
 
-          <Link
-            className="header-cta-mobile glass-button"
-            onClick={() => setMobileMenuOpen(false)}
-            to="/contact"
-          >
-            Book
-          </Link>
-        </header>
+            <Link
+              className="header-cta-mobile glass-button"
+              onClick={() => setMobileMenuOpen(false)}
+              to="/contact"
+            >
+              Book
+            </Link>
+          </header>
+        </div>
+
+        <div
+          aria-hidden="true"
+          className={`header-spacer${location.pathname === '/' ? ' header-spacer-home' : ''}`}
+        />
 
         <div className={`mobile-nav-shell${mobileMenuOpen ? ' mobile-nav-shell-open' : ''}`}>
           <button
