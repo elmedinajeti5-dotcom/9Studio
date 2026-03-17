@@ -61,15 +61,6 @@ export type ProcessStep = {
   copy: string
 }
 
-export const heroServices = [
-  'Graphic Design',
-  'UI / UX Design',
-  'Web Development',
-  'Full-Stack Development',
-  'Digital Marketing',
-  'Motion Graphics',
-]
-
 export const primaryNav: NavItem[] = [
   { label: 'Studio', href: '/studio' },
   { label: 'Services', href: '/services' },

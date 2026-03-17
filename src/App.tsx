@@ -14,13 +14,10 @@ import Reveal from './components/Reveal'
 import {
   ArrowIcon,
   HeroArtwork,
-  PlusIcon,
-  SparkIcon,
   WorksArtwork,
 } from './components/StudioVisuals'
 import {
   capabilityGroups,
-  heroServices,
   insights,
   jobs,
   primaryNav,
@@ -232,36 +229,31 @@ function HomePage() {
       <Reveal>
         <section className="hero">
           <div className="hero-copy">
-            <h1 aria-label="9Studio" className="hero-title">
-              <span className="hero-title-mark">9</span>
-              <span>Studio</span>
-            </h1>
+            <div className="hero-main">
+              <h1 aria-label="9Studio" className="hero-title">
+                <span className="hero-title-mark">9</span>
+                <span>Studio</span>
+              </h1>
 
-            <div className="hero-symbols">
-              <span className="hero-disc">
-                <SparkIcon />
-              </span>
-              <PlusIcon className="symbol-plus" />
+              <p className="hero-summary">
+                A creative technology studio for brand systems, digital
+                products, and launch experiences shaped with clarity.
+              </p>
+
+              <Link className="hero-cta" to="/contact">
+                <span>Start a project</span>
+                <span className="hero-cta-disc">
+                  <ArrowIcon />
+                </span>
+              </Link>
             </div>
-
-            <p className="hero-summary">
-              A creative technology studio for brand systems, digital products,
-              and launch experiences shaped with clarity from the first scroll.
-            </p>
-
-            <Link className="hero-cta" to="/contact">
-              <span>Start a project</span>
-              <span className="hero-cta-disc">
-                <ArrowIcon />
-              </span>
-            </Link>
 
             <div className="hero-chip-block">
               <p className="eyebrow eyebrow-dark">What we do</p>
               <div className="hero-services-grid">
-                {heroServices.map((service) => (
-                  <div className="hero-service-item" key={service}>
-                    <span>{service}</span>
+                {capabilityGroups.map((group) => (
+                  <div className="hero-service-item" key={group.title}>
+                    <span>{group.title}</span>
                   </div>
                 ))}
               </div>
