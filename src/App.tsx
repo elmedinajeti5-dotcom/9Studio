@@ -55,6 +55,9 @@ function App() {
 function StudioLayout() {
   const location = useLocation()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const footerNav = siteMapNav.filter((link) =>
+    ['/', '/services', '/work', '/process', '/contact'].includes(link.href),
+  )
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -211,7 +214,7 @@ function StudioLayout() {
           </div>
 
           <nav aria-label="Footer" className="footer-links footer-links-wide">
-            {siteMapNav.map((link) => (
+            {footerNav.map((link) => (
               <Link key={link.href} to={link.href}>
                 {link.label}
               </Link>
@@ -243,8 +246,7 @@ function HomePage() {
 
             <p className="hero-summary">
               A creative technology studio for brand systems, digital products,
-              and launch experiences that need to feel precise from the first
-              scroll.
+              and launch experiences shaped with clarity from the first scroll.
             </p>
 
             <Link className="hero-cta" to="/contact">
@@ -323,8 +325,8 @@ function HomePage() {
             <div>
               <h2 className="section-title">Services</h2>
               <p className="section-copy">
-                Four disciplined service groups covering design, builds, growth,
-                and launch content.
+                Four clear disciplines covering design, builds, growth, and
+                content for modern launches.
               </p>
             </div>
             <Link className="section-link" to="/services">
@@ -357,8 +359,8 @@ function HomePage() {
             <div>
               <h2 className="section-title">Selected Works</h2>
               <p className="section-copy">
-                Two recent launch systems that show how brand, product, and
-                engineering come together in one experience.
+                Two recent launch systems showing how brand, product, and build
+                come together in one experience.
               </p>
             </div>
             <Link className="section-link" to="/work">
