@@ -1,17 +1,9 @@
 import { useState } from 'react'
 import { ArrowIcon } from './StudioVisuals'
 
-const projectTypes = ['Brand Identity', 'Product Design', 'Full-Stack Build', 'Launch Campaign']
-const timelines = ['4-6 weeks', '6-10 weeks', '10-16 weeks', 'Ongoing retainer']
-const serviceChoices = [
-  'Graphic Design',
-  'UI / UX Design',
-  'Brand Identity',
-  'Full-Stack Development',
-  'SEO Strategy',
-  'Marketing Campaigns',
-  'Motion Design',
-]
+const projectTypes = ['Brand Refresh', 'Product Launch', 'Website Build', 'Studio Partner']
+const timelines = ['4-6 weeks', '6-10 weeks', '10-16 weeks', 'Ongoing']
+const serviceChoices = ['Design', 'Development', 'Growth', 'Content']
 
 type GuidedContactFormProps = {
   compact?: boolean
@@ -20,7 +12,7 @@ type GuidedContactFormProps = {
 function GuidedContactForm({ compact = false }: GuidedContactFormProps) {
   const [projectType, setProjectType] = useState(projectTypes[1])
   const [timeline, setTimeline] = useState(timelines[1])
-  const [selectedServices, setSelectedServices] = useState<string[]>(['UI / UX Design', 'Full-Stack Development'])
+  const [selectedServices, setSelectedServices] = useState<string[]>(['Design', 'Development'])
   const [submitted, setSubmitted] = useState(false)
 
   function toggleService(service: string) {
@@ -115,20 +107,22 @@ function GuidedContactForm({ compact = false }: GuidedContactFormProps) {
           />
         </label>
 
-        <div className="guided-summary">
-          <p>
-            <span>Type</span>
-            <strong>{projectType}</strong>
-          </p>
-          <p>
-            <span>Timeline</span>
-            <strong>{compact ? 'Flexible' : timeline}</strong>
-          </p>
-          <p>
-            <span>Services</span>
-            <strong>{selectedServices.join(', ')}</strong>
-          </p>
-        </div>
+        {!compact ? (
+          <div className="guided-summary">
+            <p>
+              <span>Type</span>
+              <strong>{projectType}</strong>
+            </p>
+            <p>
+              <span>Timeline</span>
+              <strong>{timeline}</strong>
+            </p>
+            <p>
+              <span>Services</span>
+              <strong>{selectedServices.join(', ')}</strong>
+            </p>
+          </div>
+        ) : null}
 
         <div className="connect-submit-wrap">
           <button className="connect-submit glass-button" type="submit">

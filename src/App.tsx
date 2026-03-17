@@ -13,17 +13,12 @@ import GuidedContactForm from './components/GuidedContactForm'
 import Reveal from './components/Reveal'
 import {
   ArrowIcon,
-  BannerArtwork,
-  ChromeCluster,
   HeroArtwork,
-  InfoGlyph,
-  MinusIcon,
   PlusIcon,
   SparkIcon,
   WorksArtwork,
 } from './components/StudioVisuals'
 import {
-  approachItems,
   capabilityGroups,
   heroServices,
   insights,
@@ -32,8 +27,6 @@ import {
   processSteps,
   projectCategories,
   projects,
-  selectedClients,
-  services,
   siteMapNav,
 } from './siteData'
 
@@ -213,8 +206,7 @@ function StudioLayout() {
               HELLO@9STUDIO.STUDIO
             </Link>
             <p className="footer-note">
-              New York, London, Berlin. Brand systems, digital products, and
-              launch direction for ambitious teams.
+              New York, London, Berlin. Brand systems, digital products, and launch direction for ambitious teams.
             </p>
           </div>
 
@@ -232,8 +224,6 @@ function StudioLayout() {
 }
 
 function HomePage() {
-  const [openService, setOpenService] = useState(0)
-
   return (
     <>
       <Reveal>
@@ -250,6 +240,19 @@ function HomePage() {
               </span>
               <PlusIcon className="symbol-plus" />
             </div>
+
+            <p className="hero-summary">
+              A creative technology studio for brand systems, digital products,
+              and launch experiences that need to feel precise from the first
+              scroll.
+            </p>
+
+            <Link className="hero-cta" to="/contact">
+              <span>Start a project</span>
+              <span className="hero-cta-disc">
+                <ArrowIcon />
+              </span>
+            </Link>
 
             <div className="hero-chip-block">
               <p className="eyebrow eyebrow-dark">What we do</p>
@@ -282,116 +285,28 @@ function HomePage() {
       </Reveal>
 
       <Reveal>
-        <section className="client-section" aria-label="Selected clients">
-          <p className="eyebrow client-strip-label">Selected Clients</p>
-          <div className="client-strip">
-            {selectedClients.map((client) => (
-              <p className="client-strip-item" key={client}>
-                {client}
-              </p>
-            ))}
-          </div>
-        </section>
-      </Reveal>
-
-      <Reveal>
-        <section className="approach" id="about">
-          <h2 className="section-title section-title-approach">
-            About our
-            <br />
-            approach to work
-          </h2>
-
-          <div className="approach-grid">
-            {approachItems.map((item) => (
-              <article className="approach-item" key={item.label}>
-                <div className="approach-label">
-                  <span className="approach-icon">
-                    <InfoGlyph type={item.icon} />
-                  </span>
-                  <span>{item.label}</span>
-                </div>
-                <h3 className="approach-item-title">{item.title}</h3>
-                <p className="approach-item-copy">{item.copy}</p>
-              </article>
-            ))}
-          </div>
-
-          <div className="progress-line" aria-hidden="true">
-            <span />
-          </div>
-        </section>
-      </Reveal>
-
-      <Reveal>
-        <section className="works" id="works">
-          <div className="section-header">
-            <div>
-              <h2 className="section-title">Selected Works</h2>
-              <p className="section-copy">
-                A curated selection of launch systems, brand experiences, and
-                product surfaces shaped for ambitious teams.
-              </p>
-            </div>
-            <Link className="section-link" to="/work">
-              <span>Explore all projects</span>
-              <span className="section-link-disc">
-                <ArrowIcon />
-              </span>
-            </Link>
-          </div>
-
-          <div className="works-grid">
-            <article className="work-card">
-              <div className="work-image">
-                <WorksArtwork />
-
-                <div className="work-overlay">
-                  <p className="work-overlay-label">TaylorMade</p>
-                  <p className="work-overlay-copy">
-                    Product storytelling, launch motion, and a cleaner digital
-                    system shaped for a premium release.
-                  </p>
-                </div>
-              </div>
-            </article>
-
-            <Link className="work-rail" to="/services">
-              <span className="rail-plus">
-                <PlusIcon className="rail-plus-icon" />
-              </span>
-              <h3 className="rail-title">Design</h3>
-            </Link>
-
-            <Link className="work-rail" to="/capabilities">
-              <span className="rail-plus">
-                <PlusIcon className="rail-plus-icon" />
-              </span>
-              <h3 className="rail-title">Engineering</h3>
-            </Link>
-          </div>
-        </section>
-      </Reveal>
-
-      <Reveal>
-        <section className="story-section">
+        <section className="story-section" id="process">
           <div className="section-header">
             <div>
               <p className="eyebrow">Process</p>
               <h2 className="section-title">
-                A focused workflow from discovery to launch.
+                One connected workflow from discovery to launch.
               </h2>
+              <p className="section-copy">
+                Strategy, design, build, and rollout stay joined up so the work
+                feels coherent at every stage.
+              </p>
             </div>
             <Link className="section-link" to="/process">
-              <span>View process</span>
+              <span>See full process</span>
               <span className="section-link-disc">
                 <ArrowIcon />
               </span>
             </Link>
           </div>
 
-          <div className="story-grid">
-            {processSteps.slice(0, 3).map((step) => (
+          <div className="story-grid story-grid-process">
+            {processSteps.map((step) => (
               <article className="story-card" key={step.step}>
                 <p className="story-step">[{step.step}]</p>
                 <h3>{step.title}</h3>
@@ -408,86 +323,68 @@ function HomePage() {
             <div>
               <h2 className="section-title">Services</h2>
               <p className="section-copy">
-                Three core disciplines that keep brand, product, and launch
-                moving in the same direction.
+                Four disciplined service groups covering design, builds, growth,
+                and launch content.
               </p>
             </div>
             <Link className="section-link" to="/services">
-              <span>All disciplines</span>
+              <span>View all services</span>
               <span className="section-link-disc">
                 <ArrowIcon />
               </span>
             </Link>
           </div>
 
-          <div className="service-list">
-            {services.map((service, index) => {
-              const isOpen = index === openService
-
-              return (
-                <section
-                  className={`service-row${isOpen ? ' service-row-open' : ''}`}
-                  key={service.title}
-                >
-                  <button
-                    aria-expanded={isOpen}
-                    className="service-trigger"
-                    onClick={() => setOpenService(index)}
-                    type="button"
-                  >
-                    <span className="service-index">[{service.index}]</span>
-                    <span className="service-name">{service.title}</span>
-                    <span className="service-icon">
-                      {isOpen ? (
-                        <MinusIcon className="service-icon-svg" />
-                      ) : (
-                        <PlusIcon className="service-icon-svg" />
-                      )}
-                    </span>
-                  </button>
-
-                  <div className="service-panel">
-                    <div className="service-panel-inner">
-                      <div className="service-panel-grid">
-                        <div>
-                          <p className="service-copy">{service.copy}</p>
-                          <div className="service-meta-list">
-                            {service.capabilities.map((item) => (
-                              <span className="service-meta-item" key={item}>
-                                {item}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="chrome-stage">
-                          <ChromeCluster />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </section>
-              )
-            })}
+          <div className="capability-grid capability-grid-services">
+            {capabilityGroups.map((group) => (
+              <article className="capability-card capability-card-service" key={group.title}>
+                <p className="eyebrow">{group.title}</p>
+                <h3>{group.copy}</h3>
+                <ul>
+                  {group.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </article>
+            ))}
           </div>
         </section>
       </Reveal>
 
       <Reveal>
-        <section className="banner">
-          <BannerArtwork />
-          <div className="banner-shade" />
-
-          <div className="banner-content">
-            <p className="banner-eyebrow">Featured Case Study</p>
-            <h2 className="banner-title">TAYLORMADE</h2>
-            <p className="banner-copy">Identity system, launch platform, UX motion</p>
-
-            <Link className="banner-cta glass-button" to="/case-studies/taylormade">
-              <span>View case</span>
-              <span className="banner-cta-disc">
+        <section className="works" id="works">
+          <div className="section-header">
+            <div>
+              <h2 className="section-title">Selected Works</h2>
+              <p className="section-copy">
+                Two recent launch systems that show how brand, product, and
+                engineering come together in one experience.
+              </p>
+            </div>
+            <Link className="section-link" to="/work">
+              <span>Explore all projects</span>
+              <span className="section-link-disc">
                 <ArrowIcon />
               </span>
             </Link>
+          </div>
+
+          <div className="project-grid project-grid-home">
+            {projects.slice(0, 2).map((project) => (
+              <Link className="project-card project-card-home" key={project.slug} to={`/case-studies/${project.slug}`}>
+                <div className="project-card-art">
+                  <WorksArtwork />
+                </div>
+                <div className="project-card-body">
+                  <p className="project-meta">
+                    <span>{project.client}</span>
+                    <span>{project.year}</span>
+                  </p>
+                  <h3>{project.title}</h3>
+                  <p>{project.summary}</p>
+                </div>
+              </Link>
+            ))}
           </div>
         </section>
       </Reveal>
@@ -581,13 +478,11 @@ function ServicesPage() {
       />
 
       <Reveal>
-        <section className="service-catalog">
+        <section className="capability-grid capability-grid-services">
           {capabilityGroups.map((group) => (
-            <article className="catalog-card" key={group.title}>
-              <div>
-                <p className="eyebrow">{group.title}</p>
-                <h3>{group.copy}</h3>
-              </div>
+            <article className="capability-card capability-card-service" key={group.title}>
+              <p className="eyebrow">{group.title}</p>
+              <h3>{group.copy}</h3>
               <ul>
                 {group.items.map((item) => (
                   <li key={item}>{item}</li>
@@ -682,13 +577,6 @@ function WorkPage() {
                   </p>
                   <h3>{project.title}</h3>
                   <p>{project.summary}</p>
-                  <div className="project-tags">
-                    {project.categories.map((category) => (
-                      <span className="mini-chip" key={category}>
-                        {category}
-                      </span>
-                    ))}
-                  </div>
                 </div>
               </Link>
             ))}
@@ -866,7 +754,7 @@ function ProcessPage() {
     <>
       <PageHero
         eyebrow="Process"
-        summary="A six-stage workflow that keeps strategy, design, code, and growth aligned from day one through launch and optimization."
+        summary="A four-stage workflow that keeps strategy, design, build, and launch moving in one deliberate direction."
         title="A studio process designed to keep every discipline working in the same direction."
       />
 

@@ -1713,13 +1713,22 @@ textarea {
 }
 
 @media (max-width: 759px) {
+  :root {
+    --section-space: 56px;
+    --section-space-tight: 36px;
+    --grid-gap: 14px;
+    --grid-gap-wide: 14px;
+    --card-pad: 18px;
+    --card-pad-large: 20px;
+  }
+
   .glass-button {
     backdrop-filter: blur(10px) saturate(112%);
     -webkit-backdrop-filter: blur(10px) saturate(112%);
   }
 
   .page {
-    padding-top: 10px;
+    padding-top: 12px;
   }
 
   .page-home > .reveal:first-child {
@@ -1767,7 +1776,8 @@ textarea {
   }
 
   .hero {
-    min-height: 252px;
+    min-height: 264px;
+    border-radius: 24px;
   }
 
   .manifesto {
@@ -1800,6 +1810,211 @@ textarea {
 
   .footer {
     margin-top: var(--space-80);
+  }
+
+  .mobile-nav-panel {
+    border-radius: 20px;
+    backdrop-filter: blur(18px) saturate(116%);
+    -webkit-backdrop-filter: blur(18px) saturate(116%);
+    box-shadow:
+      0 22px 44px rgba(0, 0, 0, 0.32),
+      inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  .mobile-nav-backdrop {
+    background: rgba(4, 4, 4, 0.68);
+  }
+
+  .story-card,
+  .capability-card,
+  .value-card,
+  .job-card,
+  .insight-card,
+  .catalog-card,
+  .metric-card,
+  .case-index-card,
+  .detail-card,
+  .breakdown-card,
+  .case-copy-card,
+  .timeline-card,
+  .editorial-card,
+  .guided-pane,
+  .project-card,
+  .service-row,
+  .banner {
+    border-radius: 18px;
+  }
+
+  .story-card,
+  .capability-card,
+  .value-card,
+  .job-card,
+  .insight-card,
+  .catalog-card,
+  .case-index-card,
+  .detail-card,
+  .breakdown-card,
+  .case-copy-card,
+  .timeline-card,
+  .editorial-card,
+  .guided-pane,
+  .metric-card {
+    padding: var(--card-pad);
+  }
+
+  .section-copy,
+  .section-copy-wide,
+  .page-hero-summary,
+  .article-paragraph {
+    font-size: 12px;
+    line-height: 1.74;
+  }
+
+  .section-copy {
+    margin-top: 18px;
+  }
+
+  .section-header,
+  .process-callout,
+  .case-index-head {
+    gap: 12px;
+  }
+
+  .story-grid,
+  .capability-grid,
+  .values-grid,
+  .jobs-grid,
+  .insight-grid,
+  .project-grid,
+  .metric-grid,
+  .case-copy-grid,
+  .breakdown-grid,
+  .guided-grid,
+  .editorial-grid,
+  .case-study-grid {
+    gap: 16px;
+    margin-top: 24px;
+  }
+
+  .project-card-art {
+    min-height: 240px;
+  }
+
+  .work-image {
+    min-height: 304px;
+  }
+
+  .work-overlay {
+    right: 14px;
+    bottom: 14px;
+    width: min(136px, calc(100% - 28px));
+    max-width: calc(100% - 28px);
+    padding: 12px;
+  }
+
+  .project-card-body {
+    padding: var(--card-pad);
+  }
+
+  .insight-card,
+  .job-card,
+  .value-card,
+  .story-card,
+  .capability-card,
+  .timeline-card {
+    min-height: unset;
+  }
+
+  .insight-card h3,
+  .project-card h3,
+  .job-card h3,
+  .catalog-card h3,
+  .story-card h3,
+  .capability-card h3,
+  .value-card h3,
+  .timeline-card h3,
+  .breakdown-card h3 {
+    max-inline-size: min(100%, 13ch);
+  }
+
+  .service-trigger {
+    grid-template-columns: 34px minmax(0, 1fr) 20px;
+    gap: 12px;
+    padding: 18px 16px;
+  }
+
+  .service-panel-grid {
+    gap: 18px;
+    padding: 0 16px 18px 50px;
+  }
+
+  .service-copy {
+    max-width: 34ch;
+    font-size: 11px;
+  }
+
+  .hero-symbols {
+    margin-top: 18px;
+    gap: 14px;
+  }
+
+  .hero-chip-block {
+    padding-top: 24px;
+  }
+
+  .hero-service-item {
+    transition:
+      border-color var(--duration-fast) var(--ease-premium),
+      background var(--duration-fast) var(--ease-premium),
+      box-shadow var(--duration-fast) var(--ease-premium),
+      transform var(--duration-fast) var(--ease-premium);
+  }
+
+  .banner {
+    min-height: 216px;
+  }
+
+  .banner-content {
+    padding-inline: 10px;
+  }
+
+  .connect-inner {
+    width: min(100%, 420px);
+  }
+
+  .connect-form {
+    margin-top: 32px;
+  }
+
+  .guided-form {
+    margin-top: 20px;
+  }
+
+  .footer {
+    gap: 18px;
+    padding-bottom: 24px;
+  }
+
+  .footer-links {
+    gap: 10px 18px;
+  }
+
+  .hero-nine-scene {
+    animation: heroFloatMobile 8s var(--ease-premium) infinite alternate;
+  }
+
+  .glass-button:active,
+  .mobile-menu-toggle:active,
+  .service-trigger:active,
+  .filter-chip:active,
+  .guided-chip:active,
+  .hero-service-item:active,
+  .section-link:active,
+  .project-card:active,
+  .insight-card:active,
+  .job-card:active,
+  .work-rail:active {
+    transform: scale(0.992);
   }
 }
 
@@ -1863,7 +2078,7 @@ textarea {
   }
 
   .hero-services-grid {
-    gap: 7px;
+    gap: 8px;
   }
 
   .hero-service-item {
@@ -1880,7 +2095,7 @@ textarea {
 
   .approach-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 18px 14px;
+    gap: 16px 12px;
   }
 
   .works-grid {
@@ -3851,9 +4066,19 @@ textarea {
   }
 }
 
+@keyframes heroFloatMobile {
+  from {
+    transform: translate3d(0, 2px, 0);
+  }
+
+  to {
+    transform: translate3d(0, -2px, 0);
+  }
+}
+
 @media (max-width: 760px) {
   .hero-nine-scene {
-    animation: none;
+    animation: heroFloatMobile 8.4s var(--ease-premium) infinite alternate;
   }
 
   .reveal {
@@ -3920,11 +4145,16 @@ textarea {
   }
 
   .page-hero {
-    padding: 12px 0 var(--space-20);
+    padding: 10px 0 var(--space-20);
   }
 
   .page-hero-summary {
     font-size: 12px;
+  }
+
+  .editorial-grid,
+  .case-study-grid {
+    margin-top: 28px;
   }
 
   .compare-surface {
@@ -4519,5 +4749,431 @@ textarea {
 
   .footer-links {
     grid-column: span 4;
+  }
+}
+
+:root {
+  --fs-hero: clamp(2.7rem, 6.6vw, 5rem);
+  --fs-manifesto: clamp(1.95rem, 4.2vw, 4rem);
+  --fs-section: clamp(1.72rem, 2.8vw, 2.9rem);
+  --fs-page-hero: clamp(2rem, 3.45vw, 3.7rem);
+  --fs-card-title: clamp(1.08rem, 1.45vw, 1.58rem);
+  --measure-section: 12ch;
+  --measure-page: 16ch;
+  --measure-copy: 56ch;
+}
+
+.header-nav {
+  gap: var(--space-24);
+}
+
+.header-nav a {
+  letter-spacing: 0.18em;
+}
+
+.page {
+  padding-top: 16px;
+}
+
+.hero {
+  align-items: stretch;
+  grid-template-columns: minmax(248px, 39%) 1fr;
+  min-height: 500px;
+  padding: 30px 30px 26px;
+}
+
+.hero-copy {
+  max-width: 360px;
+}
+
+.hero-title {
+  max-inline-size: 5.6ch;
+}
+
+.hero-symbols {
+  margin-top: 20px;
+  gap: 14px;
+}
+
+.hero-summary {
+  max-width: 31ch;
+  margin-top: var(--type-gap-md);
+  color: rgba(16, 16, 16, 0.62);
+  font-size: 11.5px;
+  line-height: 1.68;
+  letter-spacing: -0.012em;
+}
+
+.hero-cta {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: var(--type-gap-sm);
+  margin-top: var(--type-gap-md);
+  min-height: 36px;
+  padding: 0 14px;
+  border: 1px solid rgba(15, 15, 15, 0.12);
+  border-radius: 999px;
+  background: rgba(15, 15, 15, 0.92);
+  color: rgba(255, 255, 255, 0.94);
+  font-size: 8.8px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  text-transform: uppercase;
+  transition:
+    transform var(--duration-fast) var(--ease-premium),
+    background-color var(--duration-fast) var(--ease-premium),
+    border-color var(--duration-fast) var(--ease-premium),
+    box-shadow var(--duration-fast) var(--ease-premium);
+}
+
+.hero-cta-disc {
+  display: inline-flex;
+  height: 16px;
+  width: 16px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(93, 244, 202, 0.16);
+  color: var(--accent);
+}
+
+.hero-cta-disc svg {
+  height: 9px;
+  width: 9px;
+}
+
+.hero-cta:hover {
+  transform: translateY(-1px);
+  border-color: rgba(15, 15, 15, 0.18);
+  background: rgba(15, 15, 15, 0.98);
+  box-shadow: 0 14px 26px rgba(0, 0, 0, 0.12);
+}
+
+.hero-cta:focus-visible {
+  outline: 2px solid rgba(15, 15, 15, 0.3);
+  outline-offset: 2px;
+}
+
+.hero-chip-block {
+  padding-top: 30px;
+}
+
+.hero-services-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  max-width: 100%;
+}
+
+.hero-service-item {
+  min-height: 42px;
+  padding: 11px 14px 11px 15px;
+  border-radius: 16px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 6px 18px rgba(0, 0, 0, 0.025);
+}
+
+.hero-service-item span {
+  font-size: 10.5px;
+  line-height: 1.46;
+}
+
+.hero-art {
+  inset: 2.5% 1.5% 2.5% 41%;
+}
+
+.hero-nine-scene {
+  inset: -10% -6% -12% 5%;
+}
+
+.hero-nine-image {
+  right: -6%;
+  top: -8%;
+  height: 122%;
+  width: 118%;
+  filter: drop-shadow(0 22px 30px rgba(0, 0, 0, 0.14));
+}
+
+.hero-nine-shadow {
+  right: 12%;
+  bottom: 6%;
+  width: 48%;
+  height: 14%;
+  filter: blur(20px);
+}
+
+.manifesto {
+  margin-top: 34px;
+}
+
+.manifesto-text {
+  max-width: min(100%, 14ch);
+}
+
+.micro-link {
+  margin-top: var(--type-gap-sm);
+}
+
+.story-section,
+.services,
+.works,
+.connect {
+  margin-top: var(--section-space-tight);
+}
+
+.section-header > div,
+.process-callout > div,
+.case-index-head > div {
+  max-width: min(100%, 54rem);
+}
+
+.section-copy,
+.section-copy-wide,
+.page-hero-summary,
+.article-paragraph {
+  max-width: min(100%, var(--measure-copy));
+}
+
+.story-grid-process,
+.capability-grid-services,
+.project-grid-home {
+  margin-top: 28px;
+}
+
+.story-grid-process .story-card {
+  min-height: 100%;
+}
+
+.capability-grid-services .capability-card,
+.capability-grid-dense .capability-card {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.capability-card-service h3,
+.capability-grid-dense .capability-card h3 {
+  max-inline-size: 17ch;
+}
+
+.capability-card-service ul,
+.capability-grid-dense .capability-card ul {
+  margin-top: auto;
+  padding-top: var(--space-24);
+}
+
+.capability-card-service li,
+.capability-grid-dense .capability-card li {
+  padding-top: 12px;
+}
+
+.capability-card-service li + li,
+.capability-grid-dense .capability-card li + li {
+  margin-top: 2px;
+}
+
+.project-grid-home .project-card,
+.project-grid-home .project-card-home {
+  min-height: 100%;
+}
+
+.project-grid-home .project-card-art {
+  min-height: 380px;
+}
+
+.project-card-body {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+}
+
+.project-card-body > p:not(.project-meta),
+.insight-card p:last-child,
+.job-card p:last-child {
+  max-width: 38ch;
+}
+
+.project-card h3 {
+  max-inline-size: 14ch;
+}
+
+.page-hero {
+  padding-bottom: var(--space-20);
+}
+
+.page-hero-summary {
+  max-width: min(100%, 58ch);
+}
+
+.footer-note {
+  max-width: 44ch;
+}
+
+.footer-links {
+  max-width: 320px;
+  justify-self: end;
+}
+
+@media (min-width: 760px) {
+  .story-grid-process .story-card,
+  .capability-grid-services .capability-card {
+    grid-column: span 4;
+  }
+
+  .project-grid-home .project-card {
+    grid-column: span 4;
+  }
+}
+
+@media (min-width: 1200px) {
+  .hero {
+    min-height: 560px;
+    grid-template-columns: minmax(320px, 39%) 1fr;
+    padding: 34px 34px 28px;
+  }
+
+  .hero-copy {
+    max-width: 388px;
+  }
+
+  .hero-summary {
+    font-size: 12px;
+  }
+
+  .hero-art {
+    inset: 2% 1.5% 2% 43%;
+  }
+
+  .hero-nine-scene {
+    inset: -12% -7% -14% 4%;
+  }
+
+  .hero-nine-image {
+    right: -7%;
+    top: -9%;
+    height: 126%;
+    width: 120%;
+  }
+
+  .story-grid-process .story-card {
+    grid-column: span 3;
+  }
+
+  .capability-grid-services .capability-card,
+  .project-grid-home .project-card {
+    grid-column: span 6;
+  }
+}
+
+@media (max-width: 759px) {
+  .page {
+    padding-top: 12px;
+  }
+
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    min-height: auto;
+    gap: var(--space-20);
+    padding: 20px 18px 18px;
+  }
+
+  .hero-copy {
+    max-width: none;
+  }
+
+  .hero-title {
+    max-inline-size: 4.8ch;
+  }
+
+  .hero-summary {
+    max-width: 30ch;
+    font-size: 12px;
+    line-height: 1.7;
+  }
+
+  .hero-chip-block {
+    margin-top: 4px;
+    padding-top: 22px;
+  }
+
+  .hero-services-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .hero-art {
+    position: relative;
+    inset: auto;
+    min-height: 188px;
+    margin: 0 -8px -6px;
+  }
+
+  .hero-nine-scene {
+    inset: -20% -10% -22% 12%;
+  }
+
+  .hero-nine-image {
+    right: -5%;
+    top: -10%;
+    height: 126%;
+    width: 112%;
+  }
+
+  .hero-nine-shadow {
+    right: 17%;
+    bottom: 10%;
+    width: 42%;
+    height: 12%;
+  }
+
+  .manifesto-text {
+    max-width: 14ch;
+  }
+
+  .story-grid-process,
+  .capability-grid-services,
+  .project-grid-home {
+    margin-top: 20px;
+  }
+
+  .project-grid-home .project-card-art {
+    min-height: 248px;
+  }
+
+  .footer-links {
+    max-width: none;
+    justify-self: start;
+  }
+}
+
+@media (max-width: 430px) {
+  .hero {
+    padding: 18px 16px 16px;
+  }
+
+  .hero-title {
+    max-inline-size: 4.35ch;
+  }
+
+  .hero-summary {
+    font-size: 11.5px;
+  }
+
+  .hero-cta {
+    min-height: 34px;
+    padding: 0 13px;
+    font-size: 8px;
+  }
+
+  .hero-art {
+    min-height: 168px;
+    margin-inline: -6px;
+  }
+
+  .hero-nine-scene {
+    inset: -18% -12% -20% 14%;
   }
 }

@@ -80,17 +80,15 @@ export const heroServices = [
   'UI / UX Design',
   'Web Development',
   'Full-Stack Development',
-  'Digital Marketing',
-  'SEO',
-  'Video Editing',
-  'Motion Graphics',
-  'Social Media Management',
+  'SEO & Marketing',
+  'Motion Content',
 ]
 
 export const primaryNav: NavItem[] = [
   { label: 'Studio', href: '/studio' },
   { label: 'Services', href: '/services' },
   { label: 'Work', href: '/work' },
+  { label: 'Process', href: '/process' },
 ]
 
 export const selectedClients = [
@@ -104,11 +102,8 @@ export const siteMapNav: NavItem[] = [
   { label: 'Studio', href: '/studio' },
   { label: 'Services', href: '/services' },
   { label: 'Work', href: '/work' },
-  { label: 'Case Studies', href: '/case-studies' },
-  { label: 'Capabilities', href: '/capabilities' },
   { label: 'Process', href: '/process' },
   { label: 'Insights', href: '/insights' },
-  { label: 'Careers', href: '/careers' },
   { label: 'Contact', href: '/contact' },
 ]
 
@@ -169,79 +164,55 @@ export const services: ServiceItem[] = [
 
 export const capabilityGroups: CapabilityGroup[] = [
   {
-    title: 'Brand & Narrative',
+    title: 'Design',
     copy:
-      'Identity systems, positioning work, and brand storytelling shaped for ambitious products entering crowded categories.',
-    items: [
-      'Graphic Design',
-      'Brand Identity Design',
-      'Brand Strategy',
-      'Campaign Positioning',
-      'Social Media Management',
-    ],
+      'Identity direction and interface design built to make digital brands feel clear, premium, and recognisable.',
+    items: ['Graphic Design', 'UI / UX'],
   },
   {
-    title: 'Digital Product',
+    title: 'Development',
     copy:
-      'Interface systems, product thinking, and experience design that connect clarity, speed, and emotional precision.',
-    items: [
-      'UI / UX Design',
-      'Product Design',
-      'Interactive Web Experiences',
-      'Web Applications',
-      'Digital Product Launches',
-    ],
+      'Design-led builds, launch platforms, and scalable product surfaces delivered with a calm technical rigor.',
+    items: ['Web Development', 'Full-Stack'],
   },
   {
-    title: 'Engineering & Growth',
+    title: 'Growth',
     copy:
-      'Technical delivery and measurable growth systems designed to support launch, scale, and long-term optimization.',
-    items: [
-      'Full-Stack Development',
-      'SEO Strategy',
-      'Marketing Campaigns',
-      'Video Editing',
-      'Motion Design',
-    ],
+      'Search, launch planning, and social rollout shaped to keep momentum building after the product ships.',
+    items: ['Marketing', 'SEO', 'Social Media'],
+  },
+  {
+    title: 'Content',
+    copy:
+      'Motion, editing, and campaign-ready content that extends the brand with the same editorial precision as the product.',
+    items: ['Video Editing', 'Motion Graphics'],
   },
 ]
 
 export const processSteps: ProcessStep[] = [
   {
     step: '01',
-    title: 'Discovery',
+    title: 'Discover',
     copy:
-      'We map the problem space, audit the existing brand or product, and define what success must feel like for teams and users.',
+      'We audit the current brand, product, and launch friction so the right opportunity is clear before anything is designed.',
   },
   {
     step: '02',
-    title: 'Strategy',
+    title: 'Design',
     copy:
-      'Positioning, growth intent, and product priorities are aligned into one roadmap so design and engineering pull in the same direction.',
+      'Identity, interface, and narrative systems are shaped together so the work feels precise instead of pieced together.',
   },
   {
     step: '03',
-    title: 'Design',
+    title: 'Build',
     copy:
-      'The visual system, interface language, and motion rules are shaped as one cohesive editorial product experience.',
+      'We translate the concept into a fast, flexible digital experience with measured motion and careful implementation detail.',
   },
   {
     step: '04',
-    title: 'Development',
-    copy:
-      'Front-end craft, systems architecture, and implementation detail turn the concept into a fast and resilient digital product.',
-  },
-  {
-    step: '05',
     title: 'Launch',
     copy:
-      'Every touchpoint is tuned for rollout, from campaign assets and landing environments to analytics and stakeholder handoff.',
-  },
-  {
-    step: '06',
-    title: 'Growth',
-    copy:
-      'Post-launch optimization keeps the experience evolving through content, experiments, performance analysis, and iteration cycles.',
+      'Release, rollout, and post-launch tuning are handled as one system so the work performs as well as it looks.',
   },
 ]
 
