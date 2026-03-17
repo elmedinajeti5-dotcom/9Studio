@@ -5121,8 +5121,9 @@ textarea {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: calc(100svh - 88px);
-    padding-block: 0;
+    min-height: calc(100svh - 88px - clamp(18px, 2.4vh, 28px));
+    padding-top: clamp(18px, 2.4vh, 28px);
+    padding-bottom: 0;
   }
 
   .page-home > .reveal:first-child > .hero {
