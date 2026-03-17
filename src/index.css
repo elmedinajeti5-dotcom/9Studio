@@ -5214,73 +5214,108 @@ textarea {
 
   .hero {
     grid-template-columns: minmax(0, 1fr);
-    min-height: auto;
-    gap: var(--space-24);
-    padding: 20px;
+    min-height: 500px;
+    gap: var(--space-32);
+    padding: 24px 20px 22px;
+    align-items: start;
+    isolation: isolate;
   }
 
   .hero-copy {
-    max-width: none;
-    gap: var(--space-24);
+    max-width: min(100%, 340px);
+    gap: 28px;
     justify-content: flex-start;
     align-self: auto;
   }
 
+  .hero-main {
+    max-width: min(100%, 324px);
+  }
+
   .hero-title {
-    max-inline-size: 4.7ch;
+    max-inline-size: 4.9ch;
+    font-size: clamp(2.5rem, 13vw, 4rem);
+    line-height: 1.02;
   }
 
   .hero-summary {
-    max-width: 29ch;
-    font-size: 11.5px;
-    line-height: 1.56;
+    max-width: 30ch;
+    margin-top: 14px;
+    font-size: 12px;
+    line-height: 1.62;
+  }
+
+  .hero-cta {
+    margin-top: 18px;
   }
 
   .hero-chip-block {
     margin-top: 0;
-    gap: var(--space-8);
+    gap: 10px;
     padding-top: 0;
   }
 
   .hero-services-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-8);
-    max-width: none;
+    gap: 10px;
+    max-width: 340px;
   }
 
   .hero-service-item {
-    min-height: 38px;
-    padding: 10px 12px;
+    min-height: 42px;
+    padding: 11px 13px;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.46) 0%, rgba(255, 255, 255, 0.26) 100%);
   }
 
   .hero-service-item span {
-    font-size: 8px;
+    font-size: 8.25px;
     letter-spacing: 0.1em;
   }
 
   .hero-art {
-    position: relative;
-    inset: auto;
-    min-height: 164px;
-    margin: 0 -4px -4px;
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    min-height: auto;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .hero-art::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        96deg,
+        rgba(242, 242, 239, 0.99) 0%,
+        rgba(242, 242, 239, 0.95) 32%,
+        rgba(242, 242, 239, 0.74) 56%,
+        rgba(242, 242, 239, 0.22) 82%,
+        rgba(242, 242, 239, 0) 100%
+      );
   }
 
   .hero-nine-scene {
-    inset: -4% 2% -6% 24%;
+    inset: -18% -18% -28% 8%;
   }
 
   .hero-nine-image {
-    right: 1%;
-    top: 4%;
-    height: 94%;
-    width: 84%;
+    right: -8%;
+    top: -10%;
+    height: 146%;
+    width: 146%;
+    opacity: 0.44;
   }
 
   .hero-nine-shadow {
-    right: 18%;
-    bottom: 12%;
-    width: 30%;
-    height: 10%;
+    right: 8%;
+    bottom: 10%;
+    width: 42%;
+    height: 14%;
+    opacity: 0.32;
+    filter: blur(22px);
   }
 
   .manifesto-text {
@@ -5313,29 +5348,57 @@ textarea {
 
 @media (max-width: 430px) {
   .hero {
-    padding: 18px 16px 16px;
+    min-height: 472px;
+    padding: 22px 16px 18px;
+  }
+
+  .hero-copy {
+    max-width: min(100%, 304px);
+    gap: 24px;
+  }
+
+  .hero-main {
+    max-width: 292px;
   }
 
   .hero-title {
-    max-inline-size: 4.35ch;
+    max-inline-size: 4.45ch;
+    font-size: clamp(2.35rem, 14.2vw, 3.55rem);
   }
 
   .hero-summary {
-    font-size: 11px;
+    max-width: 28ch;
+    font-size: 11.5px;
   }
 
   .hero-cta {
     min-height: 40px;
     padding: 0 18px;
     font-size: 8.5px;
+    margin-top: 16px;
   }
 
   .hero-art {
-    min-height: 150px;
-    margin-inline: -6px;
+    inset: 0;
   }
 
   .hero-nine-scene {
-    inset: -2% 2% -6% 26%;
+    inset: -16% -28% -26% 2%;
+  }
+
+  .hero-nine-image {
+    right: -10%;
+    top: -8%;
+    height: 150%;
+    width: 152%;
+    opacity: 0.4;
+  }
+
+  .hero-nine-shadow {
+    right: 4%;
+    bottom: 9%;
+    width: 46%;
+    height: 15%;
+    opacity: 0.28;
   }
 }
