@@ -338,8 +338,8 @@ function HomePage() {
           <div className="capability-grid capability-grid-services">
             {capabilityGroups.map((group) => (
               <article className="capability-card capability-card-service" key={group.title}>
-                <p className="eyebrow">{group.title}</p>
-                <h3>{group.copy}</h3>
+                <h3>{group.title}</h3>
+                <p>{group.copy}</p>
                 <ul>
                   {group.items.map((item) => (
                     <li key={item}>{item}</li>
@@ -481,8 +481,8 @@ function ServicesPage() {
         <section className="capability-grid capability-grid-services">
           {capabilityGroups.map((group) => (
             <article className="capability-card capability-card-service" key={group.title}>
-              <p className="eyebrow">{group.title}</p>
-              <h3>{group.copy}</h3>
+              <h3>{group.title}</h3>
+              <p>{group.copy}</p>
               <ul>
                 {group.items.map((item) => (
                   <li key={item}>{item}</li>

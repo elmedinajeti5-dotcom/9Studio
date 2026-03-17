@@ -3,20 +3,6 @@ export type NavItem = {
   href: string
 }
 
-export type ApproachItem = {
-  icon: 'services' | 'technology' | 'difference' | 'analytics'
-  label: string
-  title: string
-  copy: string
-}
-
-export type ServiceItem = {
-  index: string
-  title: string
-  copy: string
-  capabilities: string[]
-}
-
 export type ProjectMetric = {
   label: string
   value: string
@@ -80,8 +66,8 @@ export const heroServices = [
   'UI / UX Design',
   'Web Development',
   'Full-Stack Development',
-  'SEO & Marketing',
-  'Motion Content',
+  'Digital Marketing',
+  'Motion Graphics',
 ]
 
 export const primaryNav: NavItem[] = [
@@ -89,12 +75,6 @@ export const primaryNav: NavItem[] = [
   { label: 'Services', href: '/services' },
   { label: 'Work', href: '/work' },
   { label: 'Process', href: '/process' },
-]
-
-export const selectedClients = [
-  'TaylorMade Systems',
-  'Northstar Mobility',
-  'Lumenos Health',
 ]
 
 export const siteMapNav: NavItem[] = [
@@ -107,84 +87,29 @@ export const siteMapNav: NavItem[] = [
   { label: 'Contact', href: '/contact' },
 ]
 
-export const approachItems: ApproachItem[] = [
-  {
-    icon: 'services',
-    label: 'SERVICES',
-    title: 'Graphic Design',
-    copy:
-      'Identity systems, UI language, and launch-ready visual assets shaped to feel clear, premium, and memorable.',
-  },
-  {
-    icon: 'technology',
-    label: 'TECHNOLOGY',
-    title: 'Product Systems',
-    copy:
-      'Design and engineering move together so interfaces, motion, and technical delivery stay coherent from day one.',
-  },
-  {
-    icon: 'difference',
-    label: 'DIFFERENCE',
-    title: 'Collaboration',
-    copy:
-      'A small senior team keeps strategy, visual craft, and implementation tightly connected across the entire engagement.',
-  },
-  {
-    icon: 'analytics',
-    label: 'ANALYTICS',
-    title: 'Growth',
-    copy:
-      'Search, launch planning, and post-release iteration keep the work commercially sharp after it ships.',
-  },
-]
-
-export const services: ServiceItem[] = [
-  {
-    index: '01',
-    title: 'Graphic Design',
-    copy:
-      'Identity direction, visual systems, and interface-ready brand assets shaped for ambitious products that need a clearer presence.',
-    capabilities: ['Brand identity', 'UI / UX systems', 'Campaign art direction'],
-  },
-  {
-    index: '02',
-    title: 'Web Development',
-    copy:
-      'Design-led front-end and full-stack builds created with close attention to performance, pacing, and implementation detail.',
-    capabilities: ['Web platforms', 'Full-stack builds', 'Interactive launch surfaces'],
-  },
-  {
-    index: '03',
-    title: 'Growth & Motion',
-    copy:
-      'Launch campaigns, SEO systems, and motion content built to extend the brand after release without adding noise.',
-    capabilities: ['SEO strategy', 'Motion content', 'Social rollout'],
-  },
-]
-
 export const capabilityGroups: CapabilityGroup[] = [
   {
     title: 'Design',
     copy:
-      'Identity direction and interface design built to make digital brands feel clear, premium, and recognisable.',
+      'Identity direction, visual systems, and interface design shaped to make digital brands feel precise and recognisable.',
     items: ['Graphic Design', 'UI / UX'],
   },
   {
     title: 'Development',
     copy:
-      'Design-led builds, launch platforms, and scalable product surfaces delivered with a calm technical rigor.',
+      'Design-led builds and launch platforms delivered with calm technical rigor and careful implementation detail.',
     items: ['Web Development', 'Full-Stack'],
   },
   {
     title: 'Growth',
     copy:
-      'Search, launch planning, and social rollout shaped to keep momentum building after the product ships.',
-    items: ['Marketing', 'SEO', 'Social Media'],
+      'Search, campaigns, and social rollout shaped to keep momentum building after the product ships.',
+    items: ['Digital Marketing', 'SEO', 'Social Media'],
   },
   {
     title: 'Content',
     copy:
-      'Motion, editing, and campaign-ready content that extends the brand with the same editorial precision as the product.',
+      'Editing and motion content that extends the brand with the same editorial precision as the product experience.',
     items: ['Video Editing', 'Motion Graphics'],
   },
 ]
@@ -194,25 +119,25 @@ export const processSteps: ProcessStep[] = [
     step: '01',
     title: 'Discover',
     copy:
-      'We audit the current brand, product, and launch friction so the right opportunity is clear before anything is designed.',
+      'We audit the current brand, product, and launch friction before anything is designed.',
   },
   {
     step: '02',
     title: 'Design',
     copy:
-      'Identity, interface, and narrative systems are shaped together so the work feels precise instead of pieced together.',
+      'Identity, interface, and narrative systems are shaped together so the work feels precise.',
   },
   {
     step: '03',
     title: 'Build',
     copy:
-      'We translate the concept into a fast, flexible digital experience with measured motion and careful implementation detail.',
+      'We translate the concept into a fast, flexible digital experience with measured motion.',
   },
   {
     step: '04',
     title: 'Launch',
     copy:
-      'Release, rollout, and post-launch tuning are handled as one system so the work performs as well as it looks.',
+      'Release and rollout are handled as one system so the work performs as well as it looks.',
   },
 ]
 

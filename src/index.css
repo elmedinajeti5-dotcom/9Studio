@@ -4753,6 +4753,16 @@ textarea {
 }
 
 :root {
+  --section-space: var(--space-64);
+  --section-space-tight: var(--space-48);
+  --grid-gap: var(--space-24);
+  --grid-gap-wide: var(--space-24);
+  --card-pad: var(--space-24);
+  --card-pad-large: var(--space-32);
+  --type-gap-sm: var(--space-8);
+  --type-gap-md: var(--space-16);
+  --type-gap-lg: var(--space-24);
+  --type-gap-xl: var(--space-32);
   --fs-hero: clamp(2.7rem, 6.6vw, 5rem);
   --fs-manifesto: clamp(1.95rem, 4.2vw, 4rem);
   --fs-section: clamp(1.72rem, 2.8vw, 2.9rem);
@@ -4773,6 +4783,22 @@ textarea {
 
 .page {
   padding-top: 16px;
+}
+
+.header {
+  min-height: 32px;
+  padding-top: 14px;
+}
+
+.header-cta,
+.header-cta-mobile,
+.mobile-nav-cta,
+.connect-submit,
+.banner-cta {
+  min-height: 38px;
+  padding-inline: 16px;
+  border-radius: 999px;
+  letter-spacing: 0.16em;
 }
 
 .hero {
@@ -4881,25 +4907,26 @@ textarea {
 }
 
 .hero-art {
-  inset: 2.5% 1.5% 2.5% 41%;
+  inset: 4% 2% 4% 44%;
 }
 
 .hero-nine-scene {
-  inset: -10% -6% -12% 5%;
+  inset: -8% -2% -10% 10%;
 }
 
 .hero-nine-image {
-  right: -6%;
-  top: -8%;
-  height: 122%;
-  width: 118%;
-  filter: drop-shadow(0 22px 30px rgba(0, 0, 0, 0.14));
+  right: -2%;
+  top: -4%;
+  height: 112%;
+  width: 108%;
+  transform: rotate(2deg);
+  filter: drop-shadow(0 20px 28px rgba(0, 0, 0, 0.14));
 }
 
 .hero-nine-shadow {
-  right: 12%;
-  bottom: 6%;
-  width: 48%;
+  right: 10%;
+  bottom: 7%;
+  width: 44%;
   height: 14%;
   filter: blur(20px);
 }
@@ -4950,6 +4977,11 @@ textarea {
   column-gap: var(--space-24);
 }
 
+.project-grid-home {
+  row-gap: var(--space-24);
+  column-gap: var(--space-24);
+}
+
 .story-grid-process .story-card {
   min-height: 100%;
 }
@@ -4966,9 +4998,16 @@ textarea {
   justify-content: space-between;
 }
 
-.capability-card-service h3,
+.capability-card-service h3 {
+  max-inline-size: 11ch;
+}
+
 .capability-grid-dense .capability-card h3 {
-  max-inline-size: 17ch;
+  max-inline-size: 16ch;
+}
+
+.capability-card-service p {
+  max-width: 30ch;
 }
 
 .capability-card-service ul,
@@ -4993,7 +5032,7 @@ textarea {
 }
 
 .project-grid-home .project-card-art {
-  min-height: 380px;
+  min-height: 420px;
 }
 
 .project-card-body {
@@ -5010,6 +5049,10 @@ textarea {
 
 .project-card h3 {
   max-inline-size: 14ch;
+}
+
+.project-grid-home .project-card p:last-child {
+  margin-top: var(--space-16);
 }
 
 .page-hero {
@@ -5030,6 +5073,15 @@ textarea {
 }
 
 @media (min-width: 760px) {
+  :root {
+    --section-space: var(--space-64);
+    --section-space-tight: var(--space-48);
+    --grid-gap: var(--space-24);
+    --grid-gap-wide: var(--space-24);
+    --card-pad: var(--space-24);
+    --card-pad-large: var(--space-32);
+  }
+
   .story-grid-process .story-card,
   .capability-grid-services .capability-card {
     grid-column: span 4;
@@ -5045,6 +5097,11 @@ textarea {
 }
 
 @media (min-width: 1200px) {
+  :root {
+    --section-space: var(--space-96);
+    --section-space-tight: var(--space-64);
+  }
+
   .hero {
     min-height: 560px;
     grid-template-columns: minmax(320px, 39%) 1fr;
@@ -5060,18 +5117,18 @@ textarea {
   }
 
   .hero-art {
-    inset: 2% 1.5% 2% 43%;
+    inset: 4% 2% 4% 46%;
   }
 
   .hero-nine-scene {
-    inset: -12% -7% -14% 4%;
+    inset: -10% -3% -12% 10%;
   }
 
   .hero-nine-image {
-    right: -7%;
-    top: -9%;
-    height: 126%;
-    width: 120%;
+    right: -2%;
+    top: -5%;
+    height: 116%;
+    width: 110%;
   }
 
   .story-grid-process .story-card,
@@ -5083,6 +5140,19 @@ textarea {
 }
 
 @media (max-width: 759px) {
+  :root {
+    --section-space: var(--space-48);
+    --section-space-tight: var(--space-32);
+    --grid-gap: var(--space-16);
+    --grid-gap-wide: var(--space-16);
+    --card-pad: var(--space-16);
+    --card-pad-large: var(--space-24);
+    --type-gap-sm: var(--space-8);
+    --type-gap-md: var(--space-16);
+    --type-gap-lg: var(--space-24);
+    --type-gap-xl: var(--space-32);
+  }
+
   .page {
     padding-top: 12px;
   }
@@ -5121,25 +5191,25 @@ textarea {
   .hero-art {
     position: relative;
     inset: auto;
-    min-height: 188px;
+    min-height: 176px;
     margin: 0 -8px -6px;
   }
 
   .hero-nine-scene {
-    inset: -20% -10% -22% 12%;
+    inset: -18% -8% -18% 18%;
   }
 
   .hero-nine-image {
-    right: -5%;
-    top: -10%;
-    height: 126%;
-    width: 112%;
+    right: -2%;
+    top: -6%;
+    height: 116%;
+    width: 102%;
   }
 
   .hero-nine-shadow {
-    right: 17%;
+    right: 16%;
     bottom: 10%;
-    width: 42%;
+    width: 36%;
     height: 12%;
   }
 
@@ -5162,7 +5232,7 @@ textarea {
   }
 
   .project-grid-home .project-card-art {
-    min-height: 248px;
+    min-height: 236px;
   }
 
   .footer-links {
@@ -5191,11 +5261,11 @@ textarea {
   }
 
   .hero-art {
-    min-height: 168px;
+    min-height: 158px;
     margin-inline: -6px;
   }
 
   .hero-nine-scene {
-    inset: -18% -12% -20% 14%;
+    inset: -16% -10% -18% 18%;
   }
 }
