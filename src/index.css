@@ -608,6 +608,10 @@ textarea {
   display: block;
 }
 
+.hero-title span:not(.hero-title-mark) {
+  white-space: nowrap;
+}
+
 .hero-symbols {
   display: flex;
   align-items: center;
@@ -5233,7 +5237,7 @@ textarea {
   }
 
   .hero-title {
-    max-inline-size: 4.9ch;
+    max-inline-size: 5.35ch;
     font-size: clamp(2.5rem, 13vw, 4rem);
     line-height: 1.02;
   }
@@ -5362,7 +5366,7 @@ textarea {
   }
 
   .hero-title {
-    max-inline-size: 4.45ch;
+    max-inline-size: 5.05ch;
     font-size: clamp(2.35rem, 14.2vw, 3.55rem);
   }
 
