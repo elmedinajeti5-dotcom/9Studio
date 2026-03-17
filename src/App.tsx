@@ -1,4 +1,10 @@
-import { startTransition, useDeferredValue, useEffect, useState } from 'react'
+import {
+  startTransition,
+  useDeferredValue,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from 'react'
 import {
   Link,
   NavLink,
@@ -61,7 +67,28 @@ function StudioLayout() {
   )
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    if (!('scrollRestoration' in window.history)) {
+      return undefined
+    }
+
+    const previousScrollRestoration = window.history.scrollRestoration
+    window.history.scrollRestoration = 'manual'
+
+    return () => {
+      window.history.scrollRestoration = previousScrollRestoration
+    }
+  }, [])
+
+  useLayoutEffect(() => {
+    const resetScroll = () => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+    }
+
+    resetScroll()
+
+    if (location.pathname === '/' && window.innerWidth >= 760) {
+      window.requestAnimationFrame(resetScroll)
+    }
   }, [location.pathname])
 
   useEffect(() => {
