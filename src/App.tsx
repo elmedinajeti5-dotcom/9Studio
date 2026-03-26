@@ -17,6 +17,7 @@ import {
 import BeforeAfterSlider from './components/BeforeAfterSlider'
 import GuidedContactForm from './components/GuidedContactForm'
 import Reveal from './components/Reveal'
+import { SelectedWorksSection } from './components/SelectedWorksSection'
 import {
   ArrowIcon,
   HeroArtwork,
@@ -452,41 +453,7 @@ function HomePage() {
       </Reveal>
 
       <Reveal>
-        <section className="works" id="works">
-          <div className="section-header">
-            <div>
-              <h2 className="section-title">Selected Works</h2>
-              <p className="section-copy">
-                Two recent launch systems showing how brand, product, and build
-                come together in one experience.
-              </p>
-            </div>
-            <Link className="section-link" to="/work">
-              <span>Explore all projects</span>
-              <span className="section-link-disc">
-                <ArrowIcon />
-              </span>
-            </Link>
-          </div>
-
-          <div className="project-grid project-grid-home">
-            {projects.slice(0, 2).map((project) => (
-              <Link className="project-card project-card-home" key={project.slug} to={`/case-studies/${project.slug}`}>
-                <div className="project-card-art">
-                  <WorksArtwork />
-                </div>
-                <div className="project-card-body">
-                  <p className="project-meta">
-                    <span>{project.client}</span>
-                    <span>{project.year}</span>
-                  </p>
-                  <h3>{project.title}</h3>
-                  <p>{project.summary}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
+        <SelectedWorksSection />
       </Reveal>
 
       <Reveal>
