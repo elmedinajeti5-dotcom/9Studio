@@ -68,16 +68,21 @@ export type ProcessStep = {
   copy: string
 }
 
+export type SocialLink = {
+  label: string
+  href: string
+}
+
 export const primaryNav: NavItem[] = [
   { label: 'Work', href: '/work' },
-  { label: 'Services', href: '/services' },
+  { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ]
 
 export const siteMapNav: NavItem[] = [
   { label: 'Home', href: '/' },
   { label: 'Work', href: '/work' },
-  { label: 'Services', href: '/services' },
+  { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
 ]
 
@@ -85,25 +90,25 @@ export const capabilityGroups: CapabilityGroup[] = [
   {
     title: 'Brand Identity',
     copy:
-      'Logos, type, art direction, and visual systems that make the work feel sharper and easier to recognise.',
+      'Flexible identities, graphic systems, and visual direction built to make a project look intentional from the first glance.',
     items: ['Identity Systems', 'Art Direction'],
   },
   {
     title: 'Web Design',
     copy:
-      'Websites and digital experiences built to feel clean, fast, and visually confident from the first screen.',
+      'Editorial websites and portfolio experiences designed with strong hierarchy, motion, and responsive structure.',
     items: ['Creative Direction', 'Creative Development'],
   },
   {
     title: 'Campaign Design',
     copy:
-      'Launch assets, decks, social sets, and campaign systems built to keep a release visually tight.',
+      'Campaign visuals, launch assets, decks, and social systems that keep a release visually coherent.',
     items: ['Launch Assets', 'Social Kits', 'Deck Design'],
   },
   {
     title: 'Motion',
     copy:
-      'Loops, edits, and motion graphics that add rhythm without making the work feel overproduced.',
+      'Subtle transitions, motion studies, and scroll choreography that make the site feel polished without becoming noisy.',
     items: ['Motion Graphics', 'Video Edits'],
   },
 ]
@@ -111,196 +116,202 @@ export const capabilityGroups: CapabilityGroup[] = [
 export const processSteps: ProcessStep[] = [
   {
     step: '01',
-    title: 'Discover',
+    title: 'Define',
     copy:
-      'We audit the current brand, product, and launch friction before anything is designed.',
+      'Start with a clear brief, references, and the kind of feeling the project should leave behind.',
   },
   {
     step: '02',
     title: 'Design',
     copy:
-      'Identity, interface, and narrative systems are shaped together so the work feels precise.',
+      'Shape the visual system, typography, color, and structure as one connected experience.',
   },
   {
     step: '03',
     title: 'Build',
     copy:
-      'We translate the concept into a fast, flexible digital experience with measured motion.',
+      'Translate the concept into a responsive front end with refined motion and clean interaction details.',
   },
   {
     step: '04',
-    title: 'Launch',
+    title: 'Refine',
     copy:
-      'Release and rollout are handled as one system so the work performs as well as it looks.',
+      'Test spacing, pacing, responsiveness, and polish until the whole system feels balanced.',
   },
+]
+
+export const socialLinks: SocialLink[] = [
+  { label: 'Instagram', href: 'https://instagram.com' },
+  { label: 'LinkedIn', href: 'https://linkedin.com' },
+  { label: 'Behance', href: 'https://behance.net' },
 ]
 
 export const projects: ProjectItem[] = [
   {
-    slug: 'taylormade',
-    title: 'TAYLORMADE',
-    client: 'TaylorMade Systems',
+    slug: 'astera',
+    title: 'ASTERA',
+    client: 'Astera Coffee',
     year: '2025',
     image: placeholderWork1,
     accent: '#d8ff56',
     surface: '#f3efe7',
-    lead: 'Launch site and campaign system for an AI operations suite.',
+    lead: 'Identity and launch website for a fictional specialty coffee brand.',
     categories: ['Product Design', 'Web Development', 'Digital Strategy'],
     summary:
-      'A sharp black-and-white launch system that unified product story, motion, and conversion.',
+      'A placeholder case study focused on packaging, launch visuals, and an editorial commerce site.',
     services: [
-      'Product Design',
-      'UI / UX Design',
-      'Full-Stack Development',
+      'Brand Identity',
+      'Web Design',
+      'Creative Development',
       'Motion Design',
-      'Marketing Campaigns',
+      'Campaign Art Direction',
     ],
     metrics: [
-      { label: 'Conversion lift', value: '+41%' },
-      { label: 'Launch engagement', value: '3.4x' },
-      { label: 'Performance score', value: '98' },
+      { label: 'Product pages', value: '12' },
+      { label: 'Launch assets', value: '24' },
+      { label: 'Prototype score', value: '98' },
     ],
     overview:
-      'TaylorMade needed one launch surface that could explain a technical AI suite quickly.',
+      'Astera is a fictional placeholder brand used to demonstrate how a portfolio case study can mix identity, product photography, and web design.',
     challenge:
-      'The old story lived across decks, scattered pages, and inconsistent visuals.',
+      'The direction had to feel bold and premium while staying simple enough for a student project portfolio.',
     strategy:
-      'We turned messaging, product flow, and motion into one simple launch narrative.',
+      'The system uses oversized type, warm contrast, and modular image blocks to create a clear launch narrative.',
     design:
-      'Oversized type, hard contrast, and modular sections kept the experience graphic and legible.',
+      'The visual language pairs heavy sans serif typography with soft gradients and poster-like product framing.',
     development:
-      'A modular front end made the system fast to ship and easy to update.',
+      'Reusable sections and placeholder media keep the structure easy to swap with real student work later.',
     launch:
-      'The release included campaign pages, motion assets, and a reusable launch toolkit.',
+      'The result is a flexible template for a future coffee, retail, or product-design case study.',
     results:
-      'The launch became easier to understand, easier to sell, and easier to reuse.',
+      'This placeholder shows how the site can present one project across identity, web, and campaign touchpoints.',
     breakdown: [
       {
-        title: 'Narrative system',
+        title: 'Brand cover',
         copy:
-          'Headlines, proof points, and motion were built as one sequence.',
+          'A bold cover image and concise headline establish the project mood immediately.',
       },
       {
-        title: 'Interface clarity',
+        title: 'Editorial product pages',
         copy:
-          'Complex product information was cut into simpler, faster-reading sections.',
+          'The web pages use strong hierarchy and large media blocks to keep the reading rhythm clean.',
       },
       {
-        title: 'Launch tooling',
+        title: 'Campaign rollout',
         copy:
-          'The team left with reusable launch parts instead of one-off pages.',
+          'Supporting assets, motion frames, and modular sections help the case study feel complete.',
       },
     ],
   },
   {
-    slug: 'northstar',
-    title: 'NORTHSTAR',
-    client: 'Northstar Mobility',
+    slug: 'morrow',
+    title: 'MORROW',
+    client: 'Morrow Run Club',
     year: '2024',
     image: placeholderWork2,
     accent: '#ffcabd',
     surface: '#f8eee6',
-    lead: 'Brand relaunch and campaign system for a mobility platform.',
+    lead: 'Campaign identity and event microsite for a fictional running club.',
     categories: ['Branding', 'Marketing Campaigns', 'Motion Graphics'],
     summary:
-      'A cleaner identity and rollout system built to reposition a complex product.',
+      'A fictional campaign project built to show energetic motion, event storytelling, and social-first design.',
     services: [
-      'Graphic Design',
-      'Brand Identity Design',
-      'Brand Strategy',
-      'Marketing Campaigns',
-      'Video Editing',
+      'Campaign Design',
+      'Brand Identity',
+      'Motion Direction',
+      'Launch Assets',
+      'Event Visuals',
     ],
     metrics: [
-      { label: 'Pipeline growth', value: '+28%' },
-      { label: 'Investor engagement', value: '+62%' },
-      { label: 'Campaign completion', value: '91%' },
+      { label: 'Event posters', value: '18' },
+      { label: 'Motion loops', value: '7' },
+      { label: 'Social assets', value: '32' },
     ],
     overview:
-      'Northstar had a strong product but no visual system that could hold every touchpoint together.',
+      'Morrow is a fictional sports-culture project used to demonstrate campaign-led storytelling with a more energetic visual tone.',
     challenge:
-      'The brand felt fragmented in investor decks, marketing pages, and motion.',
+      'The project needed to feel fast, social, and youthful without losing clarity or structure.',
     strategy:
-      'We built one identity system and pushed it through campaign, deck, and motion work.',
+      'Use a punchier palette, bolder cropping, and tighter motion to turn a simple event concept into a full visual world.',
     design:
-      'The direction mixed strict typography with atmospheric image treatment and motion.',
+      'Rounded cards, layered surfaces, and oversized captions keep the work playful while still feeling premium.',
     development:
-      'Campaign pages were built as fast, reusable blocks for the internal team.',
+      'The site is built from reusable blocks so the same structure can work for future event or culture projects.',
     launch:
-      'Delivery covered the brand site, campaign toolkit, and first-wave rollout assets.',
+      'The placeholder outcome includes a landing page, campaign tiles, and modular image-led sections.',
     results:
-      'Northstar left with a sharper story and a more consistent public face.',
+      'It demonstrates how one project can expand into event design, campaign visuals, and motion.',
     breakdown: [
       {
-        title: 'Identity rebuild',
+        title: 'Campaign world',
         copy:
-          'One visual language now runs through every launch surface.',
+          'A single visual system carries the posters, website, and social rollout.',
       },
       {
-        title: 'Campaign framework',
+        title: 'Motion rhythm',
         copy:
-          'Templates made it easier for the team to publish quickly without drift.',
+          'Soft motion and scrolling accents make the pages feel lively without overdesigning them.',
       },
       {
-        title: 'Motion toolkit',
+        title: 'Event structure',
         copy:
-          'Motion turned the relaunch into a single, coherent rollout.',
+          'The case study is structured to show venue imagery, campaign graphics, and digital touchpoints together.',
       },
     ],
   },
   {
-    slug: 'lumenos',
-    title: 'LUMENOS',
-    client: 'Lumenos Health',
+    slug: 'solace',
+    title: 'SOLACE',
+    client: 'Solace Studio',
     year: '2026',
     image: placeholderWork3,
     accent: '#b7d2ff',
     surface: '#edf5f1',
-    lead: 'A health platform redesign focused on trust, clarity, and speed.',
+    lead: 'Portfolio website and content system for a fictional interior design studio.',
     categories: ['Web Development', 'Product Design', 'Branding'],
     summary:
-      'A product and brand refresh that made a regulated platform feel calmer and easier to use.',
+      'A calmer portfolio case study showing how large imagery and minimal type can shape a more refined client-facing site.',
     services: [
-      'UI / UX Design',
-      'Product Design',
-      'Full-Stack Development',
-      'SEO Strategy',
-      'Brand Identity Design',
+      'Web Design',
+      'Content Structure',
+      'Creative Development',
+      'SEO Basics',
+      'Brand Refresh',
     ],
     metrics: [
-      { label: 'Task completion', value: '+36%' },
-      { label: 'Bounce reduction', value: '-31%' },
-      { label: 'Organic growth', value: '+54%' },
+      { label: 'Layouts', value: '9' },
+      { label: 'Image sets', value: '14' },
+      { label: 'Case templates', value: '3' },
     ],
     overview:
-      'Lumenos needed a calmer experience without losing compliance or usability.',
+      'Solace is a fictional studio project used to show the cleaner, image-led side of the portfolio template.',
     challenge:
-      'Legacy templates and weak hierarchy created friction across marketing and onboarding.',
+      'The challenge was keeping the site extremely minimal while still giving each section enough character.',
     strategy:
-      'We aligned brand, UX, content, and front-end cleanup into one phased redesign.',
+      'Use restrained color, large margins, and generous image framing so the work itself carries the page.',
     design:
-      'The system used calmer typography, cleaner modules, and less visual noise.',
+      'Large text, light surfaces, and alternating content blocks make the case study feel spacious and readable.',
     development:
-      'The build prioritized accessibility, performance, and reusable components.',
+      'The front end stays simple, fast, and reusable so it can adapt to photography, interiors, fashion, or architecture work.',
     launch:
-      'Launch planning covered migration, QA, and a staged rollout.',
+      'The final placeholder result is a polished portfolio layout ready for real project images and copy.',
     results:
-      'Lumenos shipped with better adoption, stronger search visibility, and a clearer brand.',
+      'It proves out the calmer side of the design system and balances the bolder projects in the portfolio.',
     breakdown: [
       {
-        title: 'Accessibility first',
+        title: 'Quiet layout',
         copy:
-          'Accessibility shaped the layout from the start, not as a final check.',
+          'The layout leaves room for images to breathe and avoids cluttered framing.',
       },
       {
-        title: 'Scalable system',
+        title: 'Template system',
         copy:
-          'Reusable templates gave the product team speed without losing consistency.',
+          'A repeatable case-study template makes new work easy to publish later.',
       },
       {
-        title: 'SEO continuity',
+        title: 'Responsive polish',
         copy:
-          'The migration preserved search performance while the new site rolled out.',
+          'Every section is designed to collapse cleanly from desktop to mobile without losing hierarchy.',
       },
     ],
   },

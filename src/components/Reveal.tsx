@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 
 type RevealProps = {
   children: ReactNode
@@ -7,51 +7,23 @@ type RevealProps = {
 }
 
 function Reveal({ children, className = '' }: RevealProps) {
-  const ref = useRef<HTMLDivElement | null>(null)
-  const [visible, setVisible] = useState(false)
+  const reduceMotion = useReducedMotion()
+  const combinedClassName = `reveal${className ? ` ${className}` : ''}`
 
-  useEffect(() => {
-    const node = ref.current
-
-    if (!node) {
-      return
-    }
-
-    const bounds = node.getBoundingClientRect()
-
-    if (bounds.top < window.innerHeight * 0.92) {
-      const frame = window.requestAnimationFrame(() => {
-        setVisible(true)
-      })
-
-      return () => window.cancelAnimationFrame(frame)
-    }
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true)
-          observer.disconnect()
-        }
-      },
-      {
-        threshold: 0.18,
-        rootMargin: '0px 0px -60px 0px',
-      },
-    )
-
-    observer.observe(node)
-
-    return () => observer.disconnect()
-  }, [])
+  if (reduceMotion) {
+    return <div className={combinedClassName}>{children}</div>
+  }
 
   return (
-    <div
-      className={`reveal${visible ? ' reveal-visible' : ''}${className ? ` ${className}` : ''}`}
-      ref={ref}
+    <motion.div
+      className={combinedClassName}
+      initial={{ opacity: 0, y: 42 }}
+      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      viewport={{ once: true, amount: 0.22, margin: '0px 0px -80px 0px' }}
+      whileInView={{ opacity: 1, y: 0 }}
     >
       {children}
-    </div>
+    </motion.div>
   )
 }
 

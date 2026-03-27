@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useState, type CSSProperties } from 'react'
+import { useEffect, useLayoutEffect, useState, type CSSProperties, type ReactNode } from 'react'
 import {
   Link,
   Navigate,
@@ -9,6 +9,7 @@ import {
   useLocation,
   useParams,
 } from 'react-router-dom'
+import { BubbleNav } from './components/BubbleNav'
 import { ContactForm } from './components/ContactForm'
 import { ProjectGalleryModal } from './components/ProjectGalleryModal'
 import { ProjectPoster } from './components/ProjectPoster'
@@ -16,14 +17,35 @@ import Reveal from './components/Reveal'
 import { ArrowIcon } from './components/StudioVisuals'
 import {
   capabilityGroups,
-  processSteps,
   primaryNav,
+  processSteps,
   projects,
   siteMapNav,
+  socialLinks,
   type CapabilityGroup,
-  type ProjectItem,
   type ProcessStep,
+  type ProjectItem,
 } from './siteData'
+
+const marqueeServices = [
+  'Brand Identity',
+  'Web Design',
+  'Campaign Design',
+  'Creative Direction',
+  'Motion Design',
+  'Portfolio Systems',
+]
+
+const marqueeClients = [
+  'Astera Coffee',
+  'Morrow Run Club',
+  'Solace Studio',
+  'Atelier Mono',
+  'Northbound Records',
+  'Kite Market',
+  'Common Room',
+  'Blank State',
+]
 
 function App() {
   return (
@@ -31,13 +53,15 @@ function App() {
       <Route element={<StudioLayout />}>
         <Route index element={<HomePage />} />
         <Route element={<WorkPage />} path="/work" />
-        <Route element={<ServicesPage />} path="/services" />
+        <Route element={<AboutPage />} path="/about" />
         <Route element={<CaseStudyPage />} path="/case-studies/:slug" />
         <Route element={<ContactPage />} path="/contact" />
         <Route element={<Navigate replace to="/" />} path="/studio" />
-        <Route element={<Navigate replace to="/services" />} path="/process" />
-        <Route element={<Navigate replace to="/services" />} path="/capabilities" />
+        <Route element={<Navigate replace to="/about" />} path="/services" />
+        <Route element={<Navigate replace to="/about" />} path="/process" />
+        <Route element={<Navigate replace to="/about" />} path="/capabilities" />
         <Route element={<Navigate replace to="/work" />} path="/case-studies" />
+        <Route element={<Navigate replace to="/contact" />} path="/jobs" />
         <Route element={<Navigate replace to="/" />} path="/insights" />
         <Route element={<Navigate replace to="/" />} path="/insights/:slug" />
         <Route element={<Navigate replace to="/contact" />} path="/careers" />
@@ -50,12 +74,8 @@ function App() {
 function StudioLayout() {
   const location = useLocation()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [headerState, setHeaderState] = useState({
-    atTop: true,
-    hidden: false,
-  })
   const footerNav = siteMapNav.filter((link) =>
-    ['/', '/work', '/services', '/contact'].includes(link.href),
+    ['/', '/work', '/about', '/contact'].includes(link.href),
   )
 
   useEffect(() => {
@@ -72,15 +92,15 @@ function StudioLayout() {
   }, [])
 
   useLayoutEffect(() => {
-    const resetScroll = () => {
-      window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
-    }
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+  }, [location.pathname])
 
-    resetScroll()
+  useEffect(() => {
+    const frameId = window.requestAnimationFrame(() => {
+      setMobileMenuOpen(false)
+    })
 
-    if (location.pathname === '/' && window.innerWidth >= 760) {
-      window.requestAnimationFrame(resetScroll)
-    }
+    return () => window.cancelAnimationFrame(frameId)
   }, [location.pathname])
 
   useEffect(() => {
@@ -104,69 +124,8 @@ function StudioLayout() {
     }
   }, [mobileMenuOpen])
 
-  useEffect(() => {
-    let frameId = 0
-    let lastScrollY = window.scrollY
-
-    const updateHeaderState = () => {
-      const currentScrollY = window.scrollY
-      const atTop = currentScrollY <= 12
-      const delta = currentScrollY - lastScrollY
-
-      setHeaderState((current) => {
-        if (mobileMenuOpen) {
-          if (current.atTop === atTop && current.hidden === false) {
-            return current
-          }
-
-          return { atTop, hidden: false }
-        }
-
-        let hidden = current.hidden
-
-        if (atTop || currentScrollY <= 96) {
-          hidden = false
-        } else if (delta > 8) {
-          hidden = true
-        } else if (delta < -8) {
-          hidden = false
-        }
-
-        if (current.atTop === atTop && current.hidden === hidden) {
-          return current
-        }
-
-        return { atTop, hidden }
-      })
-
-      lastScrollY = currentScrollY
-      frameId = 0
-    }
-
-    const handleScroll = () => {
-      if (frameId !== 0) {
-        return
-      }
-
-      frameId = window.requestAnimationFrame(updateHeaderState)
-    }
-
-    updateHeaderState()
-    window.addEventListener('scroll', handleScroll, { passive: true })
-
-    return () => {
-      if (frameId !== 0) {
-        window.cancelAnimationFrame(frameId)
-      }
-
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [mobileMenuOpen, location.pathname])
-
   const headerShellClassName = [
     'header-shell',
-    headerState.atTop ? 'header-shell-at-top' : 'header-shell-scrolled',
-    headerState.hidden && !mobileMenuOpen ? 'header-shell-hidden' : '',
     mobileMenuOpen ? 'header-shell-menu-open' : '',
   ]
     .filter(Boolean)
@@ -174,9 +133,17 @@ function StudioLayout() {
 
   return (
     <div className="frame">
-      <div className="site" id="top">
+      <div className="site">
         <div className={headerShellClassName}>
-          <header className={`header${mobileMenuOpen ? ' header-menu-open' : ''}`}>
+          <div className="header-desktop">
+            <BubbleNav links={primaryNav} />
+          </div>
+
+          <header className={`header header-mobile${mobileMenuOpen ? ' header-menu-open' : ''}`}>
+            <Link className="brand brand-mobile" to="/">
+              9 STUDIO
+            </Link>
+
             <button
               aria-controls="mobile-nav"
               aria-expanded={mobileMenuOpen}
@@ -188,45 +155,10 @@ function StudioLayout() {
               <span className="mobile-menu-line" />
               <span className="mobile-menu-line" />
             </button>
-
-            <Link className="brand brand-desktop" to="/">
-              9 STUDIO
-            </Link>
-
-            <Link className="brand brand-mobile" to="/" onClick={() => setMobileMenuOpen(false)}>
-              9 STUDIO
-            </Link>
-
-            <nav aria-label="Primary" className="header-nav">
-              {primaryNav.map((link) => (
-                <NavLink
-                  className={({ isActive }) => (isActive ? 'is-active' : undefined)}
-                  key={link.href}
-                  to={link.href}
-                >
-                  {link.label}
-                </NavLink>
-              ))}
-            </nav>
-
-            <a className="header-contact" href="mailto:hello@9studio.studio">
-              hello@9studio.studio
-            </a>
-
-            <Link
-              className="header-cta-mobile glass-button"
-              onClick={() => setMobileMenuOpen(false)}
-              to="/contact"
-            >
-              Contact
-            </Link>
           </header>
         </div>
 
-        <div
-          aria-hidden="true"
-          className={`header-spacer${location.pathname === '/' ? ' header-spacer-home' : ''}`}
-        />
+        <div aria-hidden="true" className="header-spacer" />
 
         <div className={`mobile-nav-shell${mobileMenuOpen ? ' mobile-nav-shell-open' : ''}`}>
           <button
@@ -237,7 +169,7 @@ function StudioLayout() {
           />
 
           <div aria-label="Mobile navigation" className="mobile-nav-panel" id="mobile-nav">
-            <p className="portfolio-kicker mobile-nav-eyebrow">Menu</p>
+            <p className="studio-eyebrow mobile-nav-eyebrow">Menu</p>
 
             <nav className="mobile-nav-links">
               {primaryNav.map((link) => (
@@ -255,23 +187,25 @@ function StudioLayout() {
             </nav>
 
             <div className="mobile-nav-actions">
-              <Link
-                className="mobile-nav-cta glass-button"
-                onClick={() => setMobileMenuOpen(false)}
-                to="/contact"
-              >
-                Send a brief
+              <Link className="mobile-nav-cta glass-button" to="/contact">
+                Start a project
               </Link>
-              <Link
-                className="mobile-nav-contact"
-                onClick={() => setMobileMenuOpen(false)}
-                to="/contact"
-              >
-                HELLO@9STUDIO.STUDIO
-              </Link>
+
+              <a className="mobile-nav-contact" href="mailto:hello@yourstudio.com">
+                hello@yourstudio.com
+              </a>
             </div>
           </div>
         </div>
+
+        {location.pathname === '/' ? null : (
+          <Link className="studio-float-cta" to="/contact">
+            <span>Start your project</span>
+            <span className="studio-float-cta-disc">
+              <ArrowIcon />
+            </span>
+          </Link>
+        )}
 
         <main
           className={`page page-transition${location.pathname === '/' ? ' page-home' : ''}`}
@@ -282,12 +216,14 @@ function StudioLayout() {
 
         <footer className="footer" id="footer">
           <div className="footer-left">
-            <p className="footer-eyebrow">Graphic design and web studio</p>
+            <p className="footer-eyebrow">Original student portfolio template</p>
+            <h2 className="footer-title">Let&apos;s make the work impossible to miss.</h2>
             <Link className="footer-email" to="/contact">
-              HELLO@9STUDIO.STUDIO
+              hello@yourstudio.com
             </Link>
             <p className="footer-note">
-              Identity, web, campaigns, and motion with a sharper graphic point of view.
+              Swap the placeholder projects, imagery, and studio details with your own work as
+              you build out the portfolio.
             </p>
           </div>
 
@@ -297,6 +233,14 @@ function StudioLayout() {
                 {link.label}
               </Link>
             ))}
+
+            {socialLinks.map((link) => (
+              <a href={link.href} key={link.label} rel="noreferrer" target="_blank">
+                {link.label}
+              </a>
+            ))}
+
+            <span>{new Date().getFullYear()}</span>
           </nav>
         </footer>
       </div>
@@ -306,8 +250,7 @@ function StudioLayout() {
 
 function HomePage() {
   const heroProject = projects[0]!
-  const marqueeServices = capabilityGroups.map((group) => group.title)
-  const marqueeClients = projects.map((project) => project.client)
+  const showreelProject = projects[1] ?? heroProject
   const [openProjectSlug, setOpenProjectSlug] = useState<string | null>(null)
   const openProject = projects.find((project) => project.slug === openProjectSlug) ?? null
 
@@ -315,74 +258,72 @@ function HomePage() {
     <>
       <Reveal>
         <section className="studio-home-hero">
-          <div className="studio-home-hero-copy">
-            <div className="studio-home-hero-topline">
-              <p className="studio-eyebrow">Independent graphic design studio</p>
-              <p className="studio-home-hero-note">
-                Berlin based. Working across identity, web, campaigns, and motion.
-              </p>
+          <div className="studio-home-hero-shell">
+            <div className="studio-home-hero-body">
+              <h1 className="studio-home-hero-title">
+                From concept <Accent>to</Accent> creation: we bring <Accent>your</Accent>{' '}
+                brand to life.
+              </h1>
             </div>
 
-            <h1 className="studio-home-hero-title">
-              Visual identities, websites, and launch worlds with more personality.
-            </h1>
-            <p className="studio-home-hero-summary">
-              9 Studio shapes cleaner covers, sharper typography, and image-led digital
-              experiences for brands that want the work to feel obvious and memorable.
-            </p>
-
-            <div className="studio-hero-actions">
-              <Link className="studio-button studio-button-dark" to="/work">
-                <span>View work</span>
-                <span className="studio-button-disc">
-                  <ArrowIcon />
-                </span>
-              </Link>
-
-              <Link className="studio-button studio-button-light" to="/contact">
-                <span>Start project</span>
-                <span className="studio-button-disc">
-                  <ArrowIcon />
-                </span>
-              </Link>
-            </div>
-
-            <div className="studio-hero-services">
-              <span>Identity systems</span>
-              <span>Web design</span>
-              <span>Campaign art direction</span>
-              <span>Motion</span>
-            </div>
-          </div>
-
-          <div className="studio-home-hero-visuals">
-            <button
-              aria-label={`Open ${heroProject.title} preview`}
-              className="studio-home-hero-poster"
-              onClick={() => setOpenProjectSlug(heroProject.slug)}
-              type="button"
-            >
-              <ProjectPoster project={heroProject} variant="hero" />
-            </button>
-
-            <div className="studio-home-hero-caption">
-              <div>
-                <p className="studio-eyebrow">Featured project</p>
-                <div className="studio-home-hero-caption-line">
-                  <strong>{heroProject.client}</strong>
-                  <span>{heroProject.year}</span>
-                </div>
+            <div className="studio-home-hero-foot">
+              <div className="studio-home-hero-credit">
+                <span className="studio-home-hero-credit-link">9 STUDIO</span>
+                <span>Agency for branding and digital.</span>
               </div>
-              <p>{heroProject.summary}</p>
+
+              <Link className="studio-home-hero-cta" to="/contact">
+                <span>Start your project with us!</span>
+                <span className="studio-home-hero-cta-disc">
+                  <ArrowIcon />
+                </span>
+              </Link>
             </div>
           </div>
         </section>
       </Reveal>
 
       <Reveal>
-        <section className="studio-marquee-stack" aria-label="Studio services and clients">
-          <MarqueeBand items={marqueeServices} />
-          <MarqueeBand items={marqueeClients} reverse />
+        <section className="studio-showreel">
+          <div className="studio-showreel-head">
+            <p className="studio-eyebrow">Showreel / placeholder media</p>
+            <Link className="studio-text-link" to="/work">
+              Browse projects
+            </Link>
+          </div>
+
+          <button
+            aria-label={`Open ${showreelProject.title} preview`}
+            className="studio-showreel-frame"
+            onClick={() => setOpenProjectSlug(showreelProject.slug)}
+            type="button"
+          >
+            <ProjectPoster project={showreelProject} variant="feature" />
+            <span className="studio-showreel-badge">Open preview</span>
+            <span className="studio-showreel-kicker">Selected work 02</span>
+          </button>
+
+          <div className="studio-showreel-copy">
+            <h2 className="studio-section-title">One stage for the strongest frames.</h2>
+            <p className="studio-section-note">
+              Use this area for a reel, campaign film, or standout project teaser. It currently
+              uses original placeholder art with the same proportions you can replace later.
+            </p>
+          </div>
+        </section>
+      </Reveal>
+
+      <Reveal>
+        <section className="studio-statement">
+          <p className="studio-eyebrow">Approach</p>
+          <h2 className="studio-statement-title">
+            Big type, clean grids, clear images. Less explaining, <Accent>more</Accent>{' '}
+            showing.
+          </h2>
+          <p className="studio-statement-copy">
+            The structure stays intentionally simple so the work reads quickly on desktop and
+            stays clear on mobile.
+          </p>
         </section>
       </Reveal>
 
@@ -391,10 +332,13 @@ function HomePage() {
           <div className="studio-section-head">
             <div>
               <p className="studio-eyebrow">Selected work</p>
-              <h2 className="studio-section-title">Three projects. Fast to scan.</h2>
+              <h2 className="studio-section-title">
+                A cleaner way <Accent>into</Accent> the case studies.
+              </h2>
             </div>
             <p className="studio-section-note">
-              Big covers first, then previews and case studies only when you want more.
+              Large images first, short copy second, then deeper project pages when someone wants
+              the full story.
             </p>
           </div>
 
@@ -412,42 +356,39 @@ function HomePage() {
       </Reveal>
 
       <Reveal>
-        <section className="studio-section">
-          <div className="studio-section-head">
-            <div>
-              <p className="studio-eyebrow">Services</p>
-              <h2 className="studio-section-title">A focused studio offer.</h2>
-            </div>
-            <p className="studio-section-note">
-              Fewer lanes, better art direction, tighter execution.
-            </p>
-          </div>
-
-          <div className="studio-service-card-grid">
-            {capabilityGroups.map((group, index) => (
-              <StudioServiceCard group={group} index={index} key={group.title} />
-            ))}
-          </div>
+        <section className="studio-marquee-stack" aria-label="Studio services and clients">
+          <MarqueeBand items={marqueeServices} />
+          <MarqueeBand items={marqueeClients} reverse />
+          <MarqueeBand items={[...socialLinks.map((link) => link.label), 'Original content only']} />
         </section>
       </Reveal>
 
       <Reveal>
-        <section className="studio-banner studio-banner-spotlight">
-          <div>
-            <p className="studio-eyebrow">Start a project</p>
-            <h2 className="studio-banner-title">
-              Bring the idea.
-              <br />
-              We shape the cover.
-            </h2>
+        <section className="studio-newsletter">
+          <div className="studio-newsletter-copy">
+            <p className="studio-eyebrow">Stay in the loop</p>
+            <h2 className="studio-section-title">A simple spot for updates, releases, or contact.</h2>
+            <p className="studio-section-note">
+              Keep this as a newsletter signup, or swap it for a booking form or project inquiry.
+            </p>
           </div>
 
-          <Link className="studio-button studio-button-dark" to="/contact">
-            <span>Send a brief</span>
-            <span className="studio-button-disc">
-              <ArrowIcon />
-            </span>
-          </Link>
+          <form
+            className="studio-newsletter-form"
+            onSubmit={(event) => event.preventDefault()}
+          >
+            <label className="studio-newsletter-field">
+              <span>Email address</span>
+              <input name="email" placeholder="name@email.com" type="email" />
+            </label>
+
+            <button className="studio-button studio-button-dark" type="submit">
+              <span>Join the list</span>
+              <span className="studio-button-disc">
+                <ArrowIcon />
+              </span>
+            </button>
+          </form>
         </section>
       </Reveal>
 
@@ -467,16 +408,20 @@ function WorkPage() {
       <Reveal>
         <PageIntro
           eyebrow="Work"
-          summary="A tighter edit of identity, web, and campaign projects with instant previews."
-          title="Work built to be seen quickly."
+          summary="A compact portfolio view with placeholder projects you can replace one by one."
+          title={
+            <>
+              Selected projects with <Accent>fast</Accent> previews.
+            </>
+          }
         />
       </Reveal>
 
       <Reveal>
-        <section className="studio-feature-list studio-feature-list-page">
+        <section className="studio-portfolio-grid" id="project-grid">
           {projects.map((project, index) => (
-            <StudioFeatureBlock
-              index={index}
+            <PortfolioGridCard
+              featured={index === 0}
               key={project.slug}
               onPreview={() => setOpenProjectSlug(project.slug)}
               project={project}
@@ -492,15 +437,46 @@ function WorkPage() {
   )
 }
 
-function ServicesPage() {
+function AboutPage() {
+  const previewProject = projects[2] ?? projects[0]!
+
   return (
     <>
       <Reveal>
         <PageIntro
-          eyebrow="Services"
-          summary="A small studio offer centered on identity, web design, campaign systems, and motion."
-          title="Identity, web, campaigns, motion."
+          eyebrow="About"
+          summary="A small studio setup for identity, web, and campaign work, presented in a cleaner portfolio-first structure."
+          title={
+            <>
+              A simple creative studio with a strong <Accent>point</Accent> of view.
+            </>
+          }
         />
+      </Reveal>
+
+      <Reveal>
+        <section className="studio-about-grid">
+          <div className="studio-about-copy">
+            <p className="studio-eyebrow">Studio profile</p>
+            <h2 className="studio-section-title">
+              Built to keep the work central and the presentation calm.
+            </h2>
+            <p className="studio-section-note">
+              This template is intentionally minimal: stronger typography, clearer image blocks,
+              shorter writing, and reusable layouts you can apply to every case study.
+            </p>
+            <div className="studio-hero-services">
+              <span>Original placeholder images</span>
+              <span>Editable project data</span>
+              <span>Responsive layouts</span>
+              <span>Motion-ready sections</span>
+            </div>
+          </div>
+
+          <div className="studio-about-poster">
+            <ProjectPoster project={previewProject} variant="feature" />
+          </div>
+        </section>
       </Reveal>
 
       <Reveal>
@@ -520,18 +496,16 @@ function ServicesPage() {
       </Reveal>
 
       <Reveal>
-        <section className="studio-banner studio-banner-soft studio-banner-process">
+        <section className="studio-banner studio-banner-soft">
           <div>
-            <p className="studio-eyebrow">Process</p>
+            <p className="studio-eyebrow">Ready to customize</p>
             <h2 className="studio-banner-title">
-              One clear direction.
-              <br />
-              Then the build.
+              Replace the placeholders and make the system <Accent>yours</Accent>.
             </h2>
           </div>
 
           <Link className="studio-button studio-button-dark" to="/contact">
-            <span>Send a brief</span>
+            <span>Start a project</span>
             <span className="studio-button-disc">
               <ArrowIcon />
             </span>
@@ -554,7 +528,11 @@ function CaseStudyPage() {
   return (
     <>
       <Reveal>
-        <PageIntro eyebrow={project.client} summary={project.lead} title={project.title} />
+        <PageIntro
+          eyebrow={`${project.client} / ${project.year}`}
+          summary={project.lead}
+          title={project.title}
+        />
       </Reveal>
 
       <Reveal>
@@ -575,15 +553,15 @@ function CaseStudyPage() {
                 <strong>{project.year}</strong>
               </div>
               <div className="studio-case-meta-item">
-                <span>Services</span>
-                <strong>{project.services.slice(0, 3).join(', ')}</strong>
-              </div>
-              <div className="studio-case-meta-item">
                 <span>Category</span>
-                <strong>{project.categories[0]}</strong>
+                <strong>{project.categories.join(' / ')}</strong>
               </div>
               <div className="studio-case-meta-item">
-                <span>Summary</span>
+                <span>Services</span>
+                <strong>{project.services.join(', ')}</strong>
+              </div>
+              <div className="studio-case-meta-item">
+                <span>Overview</span>
                 <strong>{project.summary}</strong>
               </div>
             </div>
@@ -620,15 +598,15 @@ function CaseStudyPage() {
       </Reveal>
 
       <Reveal>
-        <section className="studio-phase-grid studio-phase-grid-case">
+        <section className="studio-case-sequence">
           {project.breakdown.map((section, index) => (
-            <article className="studio-phase-card" key={section.title}>
-              <span className="studio-phase-card-step">
-                {String(index + 1).padStart(2, '0')}
-              </span>
-              <h3 className="studio-phase-card-title">{section.title}</h3>
-              <p className="studio-phase-card-copy">{section.copy}</p>
-            </article>
+            <CaseStudySplit
+              copy={section.copy}
+              index={index}
+              key={section.title}
+              project={project}
+              title={section.title}
+            />
           ))}
         </section>
       </Reveal>
@@ -657,8 +635,12 @@ function ContactPage() {
       <Reveal>
         <PageIntro
           eyebrow="Contact"
-          summary="A short brief, a deck, or a few references is enough to start."
-          title="Start with the work you want people to notice."
+          summary="A short brief, a few references, or the first rough idea is enough to begin."
+          title={
+            <>
+              Start with the project you want people to <Accent>notice</Accent>.
+            </>
+          }
         />
       </Reveal>
 
@@ -666,16 +648,24 @@ function ContactPage() {
         <section className="studio-contact">
           <div className="studio-contact-copy">
             <p className="studio-eyebrow">Studio email</p>
-            <a className="studio-contact-mail" href="mailto:hello@9studio.studio">
-              hello@9studio.studio
+            <a className="studio-contact-mail" href="mailto:hello@yourstudio.com">
+              hello@yourstudio.com
             </a>
             <p className="studio-contact-note">
-              Send references, timing, budget range, or just the messy first idea.
+              Send timing, budget range, references, or just the first direction.
             </p>
 
             <div className="studio-contact-tags">
               {capabilityGroups.map((group) => (
                 <span key={group.title}>{group.title}</span>
+              ))}
+            </div>
+
+            <div className="studio-contact-links">
+              {socialLinks.map((link) => (
+                <a href={link.href} key={link.label} rel="noreferrer" target="_blank">
+                  {link.label}
+                </a>
               ))}
             </div>
           </div>
@@ -694,7 +684,7 @@ function NotFoundPage() {
     <section className="studio-empty-state">
       <p className="studio-eyebrow">404</p>
       <h1 className="studio-page-title">That page is outside the current edit.</h1>
-      <p className="studio-page-summary">Head back to the homepage or the work.</p>
+      <p className="studio-page-summary">Head back to the homepage or browse the work.</p>
       <Link className="studio-button studio-button-dark" to="/work">
         <span>Go to work</span>
         <span className="studio-button-disc">
@@ -711,16 +701,22 @@ function PageIntro({
   summary,
 }: {
   eyebrow: string
-  title: string
-  summary: string
+  title: ReactNode
+  summary: ReactNode
 }) {
   return (
     <section className="studio-page-intro">
       <p className="studio-eyebrow">{eyebrow}</p>
-      <h1 className="studio-page-title">{title}</h1>
-      <p className="studio-page-summary">{summary}</p>
+      <div className="studio-page-intro-grid">
+        <h1 className="studio-page-title">{title}</h1>
+        <p className="studio-page-summary">{summary}</p>
+      </div>
     </section>
   )
+}
+
+function Accent({ children }: { children: ReactNode }) {
+  return <span className="studio-title-accent">{children}</span>
 }
 
 function StudioFeatureBlock({
@@ -781,6 +777,100 @@ function StudioFeatureBlock({
   )
 }
 
+function PortfolioGridCard({
+  project,
+  onPreview,
+  featured = false,
+}: {
+  project: ProjectItem
+  onPreview: () => void
+  featured?: boolean
+}) {
+  const cardStyle = {
+    '--feature-accent': project.accent,
+  } as CSSProperties
+
+  return (
+    <article
+      className={`studio-portfolio-card${featured ? ' studio-portfolio-card-featured' : ''}`}
+      style={cardStyle}
+    >
+      <button
+        aria-label={`Open ${project.title} preview`}
+        className="studio-portfolio-card-media"
+        onClick={onPreview}
+        type="button"
+      >
+        <ProjectPoster project={project} variant={featured ? 'feature' : 'card'} />
+      </button>
+
+      <div className="studio-portfolio-card-copy">
+        <div className="studio-work-card-actions">
+          <span className="studio-chip">{project.categories[0]}</span>
+          <span className="studio-chip">{project.year}</span>
+        </div>
+        <h2 className="studio-work-card-title">{project.title}</h2>
+        <p className="studio-work-card-lead">{project.lead}</p>
+        <div className="studio-work-card-actions">
+          <button className="studio-text-link" onClick={onPreview} type="button">
+            Preview
+          </button>
+          <Link className="studio-text-link" to={`/case-studies/${project.slug}`}>
+            Open case study
+          </Link>
+        </div>
+      </div>
+    </article>
+  )
+}
+
+function CaseStudySplit({
+  project,
+  title,
+  copy,
+  index,
+}: {
+  project: ProjectItem
+  title: string
+  copy: string
+  index: number
+}) {
+  return (
+    <article className={`studio-case-split${index % 2 === 1 ? ' studio-case-split-reverse' : ''}`}>
+      <ProjectDetailMedia index={index} project={project} />
+
+      <div className="studio-case-split-copy">
+        <span className="studio-phase-card-step">{String(index + 1).padStart(2, '0')}</span>
+        <h3 className="studio-phase-card-title">{title}</h3>
+        <p className="studio-phase-card-copy">{copy}</p>
+      </div>
+    </article>
+  )
+}
+
+function ProjectDetailMedia({
+  project,
+  index,
+}: {
+  project: ProjectItem
+  index: number
+}) {
+  return (
+    <div className="studio-detail-media" data-index={index}>
+      <img
+        alt={`${project.title} placeholder composition ${index + 1}`}
+        className="studio-detail-media-image"
+        loading="lazy"
+        src={project.image}
+      />
+      <div className="studio-detail-media-caption">
+        <span>{project.client}</span>
+        <span>{project.categories[index % project.categories.length]}</span>
+      </div>
+    </div>
+  )
+}
+
 function StudioServiceCard({
   group,
   index,
@@ -834,6 +924,7 @@ function MarqueeBand({
             </span>
           ))}
         </div>
+
         <div aria-hidden="true" className="studio-marquee-track">
           {repeatedItems.map((item, index) => (
             <span className="studio-marquee-item" key={`${item}-${index}-duplicate`}>
