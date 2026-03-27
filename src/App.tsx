@@ -1,12 +1,7 @@
-import {
-  startTransition,
-  useDeferredValue,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from 'react'
+import { useEffect, useLayoutEffect, useState, type CSSProperties } from 'react'
 import {
   Link,
+  Navigate,
   NavLink,
   Outlet,
   Route,
@@ -14,24 +9,20 @@ import {
   useLocation,
   useParams,
 } from 'react-router-dom'
-import BeforeAfterSlider from './components/BeforeAfterSlider'
-import GuidedContactForm from './components/GuidedContactForm'
+import { ContactForm } from './components/ContactForm'
+import { ProjectGalleryModal } from './components/ProjectGalleryModal'
+import { ProjectPoster } from './components/ProjectPoster'
 import Reveal from './components/Reveal'
-import { SelectedWorksSection } from './components/SelectedWorksSection'
-import {
-  ArrowIcon,
-  HeroArtwork,
-  WorksArtwork,
-} from './components/StudioVisuals'
+import { ArrowIcon } from './components/StudioVisuals'
 import {
   capabilityGroups,
-  insights,
-  jobs,
-  primaryNav,
   processSteps,
-  projectCategories,
+  primaryNav,
   projects,
   siteMapNav,
+  type CapabilityGroup,
+  type ProjectItem,
+  type ProcessStep,
 } from './siteData'
 
 function App() {
@@ -39,17 +30,17 @@ function App() {
     <Routes>
       <Route element={<StudioLayout />}>
         <Route index element={<HomePage />} />
-        <Route element={<StudioPage />} path="/studio" />
-        <Route element={<ServicesPage />} path="/services" />
         <Route element={<WorkPage />} path="/work" />
-        <Route element={<CaseStudiesPage />} path="/case-studies" />
+        <Route element={<ServicesPage />} path="/services" />
         <Route element={<CaseStudyPage />} path="/case-studies/:slug" />
-        <Route element={<CapabilitiesPage />} path="/capabilities" />
-        <Route element={<ProcessPage />} path="/process" />
-        <Route element={<InsightsPage />} path="/insights" />
-        <Route element={<InsightArticlePage />} path="/insights/:slug" />
-        <Route element={<CareersPage />} path="/careers" />
         <Route element={<ContactPage />} path="/contact" />
+        <Route element={<Navigate replace to="/" />} path="/studio" />
+        <Route element={<Navigate replace to="/services" />} path="/process" />
+        <Route element={<Navigate replace to="/services" />} path="/capabilities" />
+        <Route element={<Navigate replace to="/work" />} path="/case-studies" />
+        <Route element={<Navigate replace to="/" />} path="/insights" />
+        <Route element={<Navigate replace to="/" />} path="/insights/:slug" />
+        <Route element={<Navigate replace to="/contact" />} path="/careers" />
         <Route element={<NotFoundPage />} path="*" />
       </Route>
     </Routes>
@@ -64,7 +55,7 @@ function StudioLayout() {
     hidden: false,
   })
   const footerNav = siteMapNav.filter((link) =>
-    ['/', '/services', '/work', '/process', '/contact'].includes(link.href),
+    ['/', '/work', '/services', '/contact'].includes(link.href),
   )
 
   useEffect(() => {
@@ -199,11 +190,11 @@ function StudioLayout() {
             </button>
 
             <Link className="brand brand-desktop" to="/">
-              9Studio
+              9 STUDIO
             </Link>
 
             <Link className="brand brand-mobile" to="/" onClick={() => setMobileMenuOpen(false)}>
-              9Studio
+              9 STUDIO
             </Link>
 
             <nav aria-label="Primary" className="header-nav">
@@ -218,16 +209,16 @@ function StudioLayout() {
               ))}
             </nav>
 
-            <Link className="header-cta header-cta-desktop glass-button" to="/contact">
-              Book a call
-            </Link>
+            <a className="header-contact" href="mailto:hello@9studio.studio">
+              hello@9studio.studio
+            </a>
 
             <Link
               className="header-cta-mobile glass-button"
               onClick={() => setMobileMenuOpen(false)}
               to="/contact"
             >
-              Book
+              Contact
             </Link>
           </header>
         </div>
@@ -246,7 +237,7 @@ function StudioLayout() {
           />
 
           <div aria-label="Mobile navigation" className="mobile-nav-panel" id="mobile-nav">
-            <p className="eyebrow mobile-nav-eyebrow">Navigation</p>
+            <p className="portfolio-kicker mobile-nav-eyebrow">Menu</p>
 
             <nav className="mobile-nav-links">
               {primaryNav.map((link) => (
@@ -263,30 +254,13 @@ function StudioLayout() {
               ))}
             </nav>
 
-            <div className="mobile-nav-grid">
-              {siteMapNav
-                .filter((link) =>
-                  ['/case-studies', '/process', '/insights'].includes(link.href),
-                )
-                .map((link) => (
-                  <Link
-                    className="mobile-nav-secondary"
-                    key={link.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    to={link.href}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-            </div>
-
             <div className="mobile-nav-actions">
               <Link
                 className="mobile-nav-cta glass-button"
                 onClick={() => setMobileMenuOpen(false)}
                 to="/contact"
               >
-                Book a call
+                Send a brief
               </Link>
               <Link
                 className="mobile-nav-contact"
@@ -308,12 +282,12 @@ function StudioLayout() {
 
         <footer className="footer" id="footer">
           <div className="footer-left">
-            <p className="footer-eyebrow">Creative technology studio</p>
+            <p className="footer-eyebrow">Graphic design and web studio</p>
             <Link className="footer-email" to="/contact">
               HELLO@9STUDIO.STUDIO
             </Link>
             <p className="footer-note">
-              New York, London, Berlin. Brand systems, digital products, and launch direction for ambitious teams.
+              Identity, web, campaigns, and motion with a sharper graphic point of view.
             </p>
           </div>
 
@@ -331,206 +305,189 @@ function StudioLayout() {
 }
 
 function HomePage() {
+  const heroProject = projects[0]!
+  const marqueeServices = capabilityGroups.map((group) => group.title)
+  const marqueeClients = projects.map((project) => project.client)
+  const [openProjectSlug, setOpenProjectSlug] = useState<string | null>(null)
+  const openProject = projects.find((project) => project.slug === openProjectSlug) ?? null
+
   return (
     <>
       <Reveal>
-        <section className="hero">
-          <div className="hero-copy">
-            <div className="hero-main">
-              <h1 aria-label="9Studio" className="hero-title">
-                <span className="hero-title-mark">9</span>
-                <span>Studio</span>
-              </h1>
-
-              <p className="hero-summary">
-                A creative technology studio for brand systems, digital
-                products, and launch experiences shaped with clarity.
+        <section className="studio-home-hero">
+          <div className="studio-home-hero-copy">
+            <div className="studio-home-hero-topline">
+              <p className="studio-eyebrow">Independent graphic design studio</p>
+              <p className="studio-home-hero-note">
+                Berlin based. Working across identity, web, campaigns, and motion.
               </p>
+            </div>
 
-              <Link className="hero-cta" to="/contact">
-                <span>Start a project</span>
-                <span className="hero-cta-disc">
+            <h1 className="studio-home-hero-title">
+              Visual identities, websites, and launch worlds with more personality.
+            </h1>
+            <p className="studio-home-hero-summary">
+              9 Studio shapes cleaner covers, sharper typography, and image-led digital
+              experiences for brands that want the work to feel obvious and memorable.
+            </p>
+
+            <div className="studio-hero-actions">
+              <Link className="studio-button studio-button-dark" to="/work">
+                <span>View work</span>
+                <span className="studio-button-disc">
+                  <ArrowIcon />
+                </span>
+              </Link>
+
+              <Link className="studio-button studio-button-light" to="/contact">
+                <span>Start project</span>
+                <span className="studio-button-disc">
                   <ArrowIcon />
                 </span>
               </Link>
             </div>
 
-            <div className="hero-chip-block">
-              <p className="eyebrow eyebrow-dark">What we do</p>
-              <div className="hero-services-grid">
-                {capabilityGroups.map((group) => (
-                  <div className="hero-service-item" key={group.title}>
-                    <span>{group.title}</span>
-                  </div>
-                ))}
-              </div>
+            <div className="studio-hero-services">
+              <span>Identity systems</span>
+              <span>Web design</span>
+              <span>Campaign art direction</span>
+              <span>Motion</span>
             </div>
           </div>
 
-          <HeroArtwork />
+          <div className="studio-home-hero-visuals">
+            <button
+              aria-label={`Open ${heroProject.title} preview`}
+              className="studio-home-hero-poster"
+              onClick={() => setOpenProjectSlug(heroProject.slug)}
+              type="button"
+            >
+              <ProjectPoster project={heroProject} variant="hero" />
+            </button>
+
+            <div className="studio-home-hero-caption">
+              <div>
+                <p className="studio-eyebrow">Featured project</p>
+                <div className="studio-home-hero-caption-line">
+                  <strong>{heroProject.client}</strong>
+                  <span>{heroProject.year}</span>
+                </div>
+              </div>
+              <p>{heroProject.summary}</p>
+            </div>
+          </div>
         </section>
       </Reveal>
 
       <Reveal>
-        <section className="manifesto">
-          <p className="manifesto-text">
-            Building something that is bigger than ourselves and to create
-            tools and products that will have a global impact, for good.
-          </p>
+        <section className="studio-marquee-stack" aria-label="Studio services and clients">
+          <MarqueeBand items={marqueeServices} />
+          <MarqueeBand items={marqueeClients} reverse />
+        </section>
+      </Reveal>
 
-          <Link className="micro-link" to="/studio">
-            <span>About the studio</span>
-            <span className="micro-square" />
+      <Reveal>
+        <section className="studio-section" id="works">
+          <div className="studio-section-head">
+            <div>
+              <p className="studio-eyebrow">Selected work</p>
+              <h2 className="studio-section-title">Three projects. Fast to scan.</h2>
+            </div>
+            <p className="studio-section-note">
+              Big covers first, then previews and case studies only when you want more.
+            </p>
+          </div>
+
+          <div className="studio-feature-list">
+            {projects.map((project, index) => (
+              <StudioFeatureBlock
+                index={index}
+                key={project.slug}
+                onPreview={() => setOpenProjectSlug(project.slug)}
+                project={project}
+              />
+            ))}
+          </div>
+        </section>
+      </Reveal>
+
+      <Reveal>
+        <section className="studio-section">
+          <div className="studio-section-head">
+            <div>
+              <p className="studio-eyebrow">Services</p>
+              <h2 className="studio-section-title">A focused studio offer.</h2>
+            </div>
+            <p className="studio-section-note">
+              Fewer lanes, better art direction, tighter execution.
+            </p>
+          </div>
+
+          <div className="studio-service-card-grid">
+            {capabilityGroups.map((group, index) => (
+              <StudioServiceCard group={group} index={index} key={group.title} />
+            ))}
+          </div>
+        </section>
+      </Reveal>
+
+      <Reveal>
+        <section className="studio-banner studio-banner-spotlight">
+          <div>
+            <p className="studio-eyebrow">Start a project</p>
+            <h2 className="studio-banner-title">
+              Bring the idea.
+              <br />
+              We shape the cover.
+            </h2>
+          </div>
+
+          <Link className="studio-button studio-button-dark" to="/contact">
+            <span>Send a brief</span>
+            <span className="studio-button-disc">
+              <ArrowIcon />
+            </span>
           </Link>
         </section>
       </Reveal>
 
-      <Reveal>
-        <section className="story-section" id="process">
-          <div className="section-header">
-            <div>
-              <p className="eyebrow">Process</p>
-              <h2 className="section-title">
-                One connected workflow from discovery to launch.
-              </h2>
-              <p className="section-copy">
-                Strategy, design, build, and rollout stay joined up so the work
-                feels coherent at every stage.
-              </p>
-            </div>
-            <Link className="section-link" to="/process">
-              <span>See full process</span>
-              <span className="section-link-disc">
-                <ArrowIcon />
-              </span>
-            </Link>
-          </div>
-
-          <div className="story-grid story-grid-process">
-            {processSteps.map((step) => (
-              <article className="story-card" key={step.step}>
-                <p className="story-step">[{step.step}]</p>
-                <h3>{step.title}</h3>
-                <p>{step.copy}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-      </Reveal>
-
-      <Reveal>
-        <section className="services" id="services">
-          <div className="section-header">
-            <div>
-              <h2 className="section-title">Services</h2>
-              <p className="section-copy">
-                Four clear disciplines covering design, builds, growth, and
-                content for modern launches.
-              </p>
-            </div>
-            <Link className="section-link" to="/services">
-              <span>View all services</span>
-              <span className="section-link-disc">
-                <ArrowIcon />
-              </span>
-            </Link>
-          </div>
-
-          <div className="capability-grid capability-grid-services">
-            {capabilityGroups.map((group) => (
-              <article className="capability-card capability-card-service" key={group.title}>
-                <h3>{group.title}</h3>
-                <p>{group.copy}</p>
-                <ul>
-                  {group.items.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </article>
-            ))}
-          </div>
-        </section>
-      </Reveal>
-
-      <Reveal>
-        <SelectedWorksSection />
-      </Reveal>
-
-      <Reveal>
-        <section className="connect" id="contact">
-          <div className="connect-inner connect-inner-wide">
-            <h2 className="connect-title">LET&apos;S CONNECT</h2>
-            <GuidedContactForm compact />
-          </div>
-        </section>
-      </Reveal>
+      {openProject ? (
+        <ProjectGalleryModal onClose={() => setOpenProjectSlug(null)} project={openProject} />
+      ) : null}
     </>
   )
 }
 
-function StudioPage() {
+function WorkPage() {
+  const [openProjectSlug, setOpenProjectSlug] = useState<string | null>(null)
+  const openProject = projects.find((project) => project.slug === openProjectSlug) ?? null
+
   return (
     <>
-      <PageHero
-        eyebrow="Studio"
-        summary="9Studio is a creative technology studio that combines brand systems, product design, engineering, and growth strategy into one integrated process."
-        title="A studio built where design intelligence meets technical execution."
-      />
-
       <Reveal>
-        <section className="editorial-grid">
-          <article className="editorial-block">
-            <p className="eyebrow">Positioning</p>
-            <h2 className="section-title">We help ambitious companies feel coherent at every touchpoint.</h2>
-            <p className="section-copy section-copy-wide">
-              The studio works at the point where product storytelling, visual
-              systems, engineering craft, and growth architecture need to move
-              together. We build brands and digital products that feel precise,
-              expensive, and ready to scale.
-            </p>
-          </article>
-
-          <article className="editorial-card">
-            <p className="eyebrow">Global footprint</p>
-            <p>
-              New York
-              <br />
-              London
-              <br />
-              Berlin
-            </p>
-            <p className="editorial-note">
-              Distributed by default, tightly collaborative by design.
-            </p>
-          </article>
-        </section>
+        <PageIntro
+          eyebrow="Work"
+          summary="A tighter edit of identity, web, and campaign projects with instant previews."
+          title="Work built to be seen quickly."
+        />
       </Reveal>
 
       <Reveal>
-        <section className="values-grid">
-          <article className="value-card">
-            <h3>Integrated teams</h3>
-            <p>
-              Brand, product, code, motion, and growth strategy stay connected
-              from the first brief through launch.
-            </p>
-          </article>
-          <article className="value-card">
-            <h3>Editorial rigor</h3>
-            <p>
-              Every interface, campaign, and narrative system is structured for
-              clarity, pacing, and premium perception.
-            </p>
-          </article>
-          <article className="value-card">
-            <h3>Measured outcomes</h3>
-            <p>
-              The work is built to perform, whether the goal is adoption,
-              investor confidence, organic growth, or conversion.
-            </p>
-          </article>
+        <section className="studio-feature-list studio-feature-list-page">
+          {projects.map((project, index) => (
+            <StudioFeatureBlock
+              index={index}
+              key={project.slug}
+              onPreview={() => setOpenProjectSlug(project.slug)}
+              project={project}
+            />
+          ))}
         </section>
       </Reveal>
+
+      {openProject ? (
+        <ProjectGalleryModal onClose={() => setOpenProjectSlug(null)} project={openProject} />
+      ) : null}
     </>
   )
 }
@@ -538,37 +495,44 @@ function StudioPage() {
 function ServicesPage() {
   return (
     <>
-      <PageHero
-        eyebrow="Services"
-        summary="We provide brand design, product design, full-stack development, SEO strategy, launch campaigns, motion, and digital growth systems."
-        title="A full creative technology practice shaped for modern digital brands."
-      />
+      <Reveal>
+        <PageIntro
+          eyebrow="Services"
+          summary="A small studio offer centered on identity, web design, campaign systems, and motion."
+          title="Identity, web, campaigns, motion."
+        />
+      </Reveal>
 
       <Reveal>
-        <section className="capability-grid capability-grid-services">
-          {capabilityGroups.map((group) => (
-            <article className="capability-card capability-card-service" key={group.title}>
-              <h3>{group.title}</h3>
-              <p>{group.copy}</p>
-              <ul>
-                {group.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </article>
+        <section className="studio-service-card-grid studio-service-card-grid-page">
+          {capabilityGroups.map((group, index) => (
+            <StudioServiceCard detailed group={group} index={index} key={group.title} />
           ))}
         </section>
       </Reveal>
 
       <Reveal>
-        <section className="process-callout">
+        <section className="studio-phase-grid">
+          {processSteps.map((step) => (
+            <StudioPhaseCard key={step.step} step={step} />
+          ))}
+        </section>
+      </Reveal>
+
+      <Reveal>
+        <section className="studio-banner studio-banner-soft studio-banner-process">
           <div>
-            <p className="eyebrow">Client experience</p>
-            <h2 className="section-title">Every service is delivered as part of one joined-up studio workflow.</h2>
+            <p className="studio-eyebrow">Process</p>
+            <h2 className="studio-banner-title">
+              One clear direction.
+              <br />
+              Then the build.
+            </h2>
           </div>
-          <Link className="section-link" to="/contact">
-            <span>Plan your engagement</span>
-            <span className="section-link-disc">
+
+          <Link className="studio-button studio-button-dark" to="/contact">
+            <span>Send a brief</span>
+            <span className="studio-button-disc">
               <ArrowIcon />
             </span>
           </Link>
@@ -578,127 +542,10 @@ function ServicesPage() {
   )
 }
 
-function WorkPage() {
-  const [activeCategory, setActiveCategory] = useState('All')
-  const [filterTransitioning, setFilterTransitioning] = useState(false)
-  const deferredCategory = useDeferredValue(activeCategory)
-  const filteredProjects =
-    deferredCategory === 'All'
-      ? projects
-      : projects.filter((project) => project.categories.includes(deferredCategory))
-
-  useEffect(() => {
-    if (!filterTransitioning) {
-      return undefined
-    }
-
-    const timeout = window.setTimeout(() => {
-      setFilterTransitioning(false)
-    }, 240)
-
-    return () => window.clearTimeout(timeout)
-  }, [deferredCategory, filterTransitioning])
-
-  return (
-    <>
-      <PageHero
-        eyebrow="Work"
-        summary="An expandable project explorer spanning branding, product design, engineering, campaign systems, and growth strategy."
-        title="A project browser built for design, engineering, and launch storytelling."
-      />
-
-      <Reveal>
-        <section className="filter-section">
-          <div className="filter-bar">
-            {projectCategories.map((category) => (
-              <button
-                className={`filter-chip${activeCategory === category ? ' filter-chip-active' : ''}`}
-                key={category}
-                onClick={() => {
-                  if (category === activeCategory) {
-                    return
-                  }
-
-                  setFilterTransitioning(true)
-                  startTransition(() => {
-                    setActiveCategory(category)
-                  })
-                }}
-                type="button"
-              >
-                {category}
-              </button>
-            ))}
-          </div>
-
-          <div className={`project-grid${filterTransitioning ? ' project-grid-transitioning' : ''}`}>
-            {filteredProjects.map((project) => (
-              <Link className="project-card" key={project.slug} to={`/case-studies/${project.slug}`}>
-                <div className="project-card-art">
-                  <WorksArtwork />
-                </div>
-                <div className="project-card-body">
-                  <p className="project-meta">
-                    <span>{project.client}</span>
-                    <span>{project.year}</span>
-                  </p>
-                  <h3>{project.title}</h3>
-                  <p>{project.summary}</p>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </section>
-      </Reveal>
-    </>
-  )
-}
-
-function CaseStudiesPage() {
-  return (
-    <>
-      <PageHero
-        eyebrow="Case Studies"
-        summary="Editorial project narratives that show challenge, process, design rationale, technical approach, and measurable outcomes."
-        title="Detailed case studies that connect process, craft, and results."
-      />
-
-      <Reveal>
-        <section className="case-index">
-          {projects.map((project) => (
-            <article className="case-index-card" key={project.slug}>
-              <div className="case-index-head">
-                <div>
-                  <p className="eyebrow">{project.client}</p>
-                  <h2 className="section-title">{project.title}</h2>
-                </div>
-                <Link className="section-link" to={`/case-studies/${project.slug}`}>
-                  <span>Open case study</span>
-                  <span className="section-link-disc">
-                    <ArrowIcon />
-                  </span>
-                </Link>
-              </div>
-              <p className="section-copy section-copy-wide">{project.lead}</p>
-              <div className="metric-grid">
-                {project.metrics.map((metric) => (
-                  <article className="metric-card" key={metric.label}>
-                    <span>{metric.label}</span>
-                    <strong>{metric.value}</strong>
-                  </article>
-                ))}
-              </div>
-            </article>
-          ))}
-        </section>
-      </Reveal>
-    </>
-  )
-}
-
 function CaseStudyPage() {
   const { slug } = useParams()
   const project = projects.find((item) => item.slug === slug)
+  const [previewOpen, setPreviewOpen] = useState(false)
 
   if (!project) {
     return <NotFoundPage />
@@ -706,247 +553,100 @@ function CaseStudyPage() {
 
   return (
     <>
-      <PageHero
-        eyebrow={project.client}
-        summary={project.lead}
-        title={project.title}
-      />
+      <Reveal>
+        <PageIntro eyebrow={project.client} summary={project.lead} title={project.title} />
+      </Reveal>
 
       <Reveal>
-        <section className="case-study-grid">
-          <article className="case-study-main">
-            <div className="metric-grid">
-              {project.metrics.map((metric) => (
-                <article className="metric-card" key={metric.label}>
-                  <span>{metric.label}</span>
-                  <strong>{metric.value}</strong>
-                </article>
-              ))}
-            </div>
+        <section className="studio-case-hero">
+          <button
+            aria-label={`Open ${project.title} preview`}
+            className="studio-case-poster"
+            onClick={() => setPreviewOpen(true)}
+            type="button"
+          >
+            <ProjectPoster project={project} variant="feature" />
+          </button>
 
-            <div className="case-copy-grid">
-              <CaseCopyBlock copy={project.overview} title="Project Overview" />
-              <CaseCopyBlock copy={project.challenge} title="Challenge" />
-              <CaseCopyBlock copy={project.strategy} title="Research & Strategy" />
-              <CaseCopyBlock copy={project.design} title="Design Process" />
-              <CaseCopyBlock copy={project.development} title="Development Approach" />
-              <CaseCopyBlock copy={project.launch} title="Launch & Results" />
-            </div>
-          </article>
-
-          <aside className="case-study-side">
-            <div className="detail-card">
-              <p className="eyebrow">Project details</p>
-              <p>
+          <aside className="studio-case-sidebar">
+            <div className="studio-case-meta">
+              <div className="studio-case-meta-item">
                 <span>Year</span>
                 <strong>{project.year}</strong>
-              </p>
-              <p>
+              </div>
+              <div className="studio-case-meta-item">
                 <span>Services</span>
-                <strong>{project.services.join(', ')}</strong>
-              </p>
-              <p>
-                <span>Categories</span>
-                <strong>{project.categories.join(', ')}</strong>
-              </p>
+                <strong>{project.services.slice(0, 3).join(', ')}</strong>
+              </div>
+              <div className="studio-case-meta-item">
+                <span>Category</span>
+                <strong>{project.categories[0]}</strong>
+              </div>
+              <div className="studio-case-meta-item">
+                <span>Summary</span>
+                <strong>{project.summary}</strong>
+              </div>
             </div>
+
+            <button
+              className="studio-button studio-button-dark"
+              onClick={() => setPreviewOpen(true)}
+              type="button"
+            >
+              <span>Open preview</span>
+              <span className="studio-button-disc">
+                <ArrowIcon />
+              </span>
+            </button>
           </aside>
         </section>
       </Reveal>
 
       <Reveal>
-        <section className="case-study-section">
-          <BeforeAfterSlider
-            afterLabel="Refined final system"
-            beforeLabel="Legacy launch surface"
-            description="A tactile comparison layer for exploring narrative, interface, and visual system changes across the project."
-            title="Old and new states, compared in one drag interaction."
-          />
-        </section>
-      </Reveal>
-
-      <Reveal>
-        <section className="case-study-section">
-          <div className="section-header">
-            <div>
-              <p className="eyebrow">Visual Breakdown</p>
-              <h2 className="section-title">How the system was shaped.</h2>
-            </div>
-          </div>
-
-          <div className="breakdown-grid">
-            {project.breakdown.map((item) => (
-              <article className="breakdown-card" key={item.title}>
-                <h3>{item.title}</h3>
-                <p>{item.copy}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-      </Reveal>
-    </>
-  )
-}
-
-function CapabilitiesPage() {
-  return (
-    <>
-      <PageHero
-        eyebrow="Capabilities"
-        summary="Design, engineering, growth, and storytelling arranged as one consistent operating system for product-led companies."
-        title="Capabilities that span brand perception, product experience, and commercial momentum."
-      />
-
-      <Reveal>
-        <section className="capability-grid capability-grid-dense">
-          {capabilityGroups.map((group) => (
-            <article className="capability-card" key={group.title}>
-              <h3>{group.title}</h3>
-              <p>{group.copy}</p>
-              <ul>
-                {group.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            </article>
-          ))}
-        </section>
-      </Reveal>
-    </>
-  )
-}
-
-function ProcessPage() {
-  return (
-    <>
-      <PageHero
-        eyebrow="Process"
-        summary="A four-stage workflow that keeps strategy, design, build, and launch moving in one deliberate direction."
-        title="A studio process designed to keep every discipline working in the same direction."
-      />
-
-      <Reveal>
-        <section className="timeline-section">
-          {processSteps.map((step) => (
-            <article className="timeline-card" key={step.step}>
-              <p className="story-step">[{step.step}]</p>
-              <h3>{step.title}</h3>
-              <p>{step.copy}</p>
-            </article>
-          ))}
-        </section>
-      </Reveal>
-    </>
-  )
-}
-
-function InsightsPage() {
-  return (
-    <>
-      <PageHero
-        eyebrow="Insights"
-        summary="A clean editorial layer for writing about product strategy, design systems, growth, motion, and studio practice."
-        title="Studio thinking on systems, launches, interfaces, and growth."
-      />
-
-      <Reveal>
-        <section className="insight-grid insight-grid-full">
-          {insights.map((article) => (
-            <Link className="insight-card" key={article.slug} to={`/insights/${article.slug}`}>
-              <p className="insight-meta">
-                <span>{article.category}</span>
-                <span>{article.readTime}</span>
-              </p>
-              <h3>{article.title}</h3>
-              <p>{article.excerpt}</p>
-            </Link>
-          ))}
-        </section>
-      </Reveal>
-    </>
-  )
-}
-
-function InsightArticlePage() {
-  const { slug } = useParams()
-  const article = insights.find((item) => item.slug === slug)
-
-  if (!article) {
-    return <NotFoundPage />
-  }
-
-  return (
-    <>
-      <PageHero eyebrow={article.category} summary={article.readTime} title={article.title} />
-
-      <Reveal>
-        <section className="article-layout">
-          {article.paragraphs.map((paragraph) => (
-            <p className="article-paragraph" key={paragraph}>
-              {paragraph}
-            </p>
-          ))}
-        </section>
-      </Reveal>
-    </>
-  )
-}
-
-function CareersPage() {
-  return (
-    <>
-      <PageHero
-        eyebrow="Careers"
-        summary="We hire people who care about systems, craft, performance, collaboration, and building work that feels both precise and generous."
-        title="A studio culture built around shared standards and ambitious collaboration."
-      />
-
-      <Reveal>
-        <section className="values-grid">
-          <article className="value-card">
-            <h3>Small team energy</h3>
-            <p>
-              Senior-level collaboration, high trust, and direct access to the
-              work from concept through launch.
-            </p>
+        <section className="studio-case-story">
+          <article className="studio-case-card">
+            <p className="studio-eyebrow">Summary</p>
+            <p>{project.summary}</p>
           </article>
-          <article className="value-card">
-            <h3>Cross-disciplinary thinking</h3>
-            <p>
-              Designers understand launch goals, engineers care about visual
-              pacing, and strategists think in systems.
-            </p>
+          <article className="studio-case-card">
+            <p className="studio-eyebrow">Approach</p>
+            <p>{project.strategy}</p>
           </article>
-          <article className="value-card">
-            <h3>High standards, calm process</h3>
-            <p>
-              We value depth, clarity, and durable quality over noise or speed
-              for its own sake.
-            </p>
+          <article className="studio-case-card">
+            <p className="studio-eyebrow">Result</p>
+            <p>{project.results}</p>
           </article>
         </section>
       </Reveal>
 
       <Reveal>
-        <section className="jobs-grid">
-          {jobs.map((job) => (
-            <article className="job-card" key={job.title}>
-              <p className="insight-meta">
-                <span>{job.location}</span>
-                <span>{job.type}</span>
-              </p>
-              <h3>{job.title}</h3>
-              <p>{job.summary}</p>
-              <Link className="section-link" to="/contact">
-                <span>Enquire</span>
-                <span className="section-link-disc">
-                  <ArrowIcon />
-                </span>
-              </Link>
+        <section className="studio-phase-grid studio-phase-grid-case">
+          {project.breakdown.map((section, index) => (
+            <article className="studio-phase-card" key={section.title}>
+              <span className="studio-phase-card-step">
+                {String(index + 1).padStart(2, '0')}
+              </span>
+              <h3 className="studio-phase-card-title">{section.title}</h3>
+              <p className="studio-phase-card-copy">{section.copy}</p>
             </article>
           ))}
         </section>
       </Reveal>
+
+      <Reveal>
+        <section className="studio-metric-grid">
+          {project.metrics.map((metric) => (
+            <article className="studio-metric-card" key={metric.label}>
+              <span>{metric.label}</span>
+              <strong>{metric.value}</strong>
+            </article>
+          ))}
+        </section>
+      </Reveal>
+
+      {previewOpen ? (
+        <ProjectGalleryModal onClose={() => setPreviewOpen(false)} project={project} />
+      ) : null}
     </>
   )
 }
@@ -954,16 +654,34 @@ function CareersPage() {
 function ContactPage() {
   return (
     <>
-      <PageHero
-        eyebrow="Contact"
-        summary="A guided briefing flow for teams who need brand, product, engineering, launch support, or a long-term creative technology partner."
-        title="A conversational way to shape the right studio engagement."
-      />
+      <Reveal>
+        <PageIntro
+          eyebrow="Contact"
+          summary="A short brief, a deck, or a few references is enough to start."
+          title="Start with the work you want people to notice."
+        />
+      </Reveal>
 
       <Reveal>
-        <section className="connect connect-page">
-          <div className="connect-inner connect-inner-wide">
-            <GuidedContactForm />
+        <section className="studio-contact">
+          <div className="studio-contact-copy">
+            <p className="studio-eyebrow">Studio email</p>
+            <a className="studio-contact-mail" href="mailto:hello@9studio.studio">
+              hello@9studio.studio
+            </a>
+            <p className="studio-contact-note">
+              Send references, timing, budget range, or just the messy first idea.
+            </p>
+
+            <div className="studio-contact-tags">
+              {capabilityGroups.map((group) => (
+                <span key={group.title}>{group.title}</span>
+              ))}
+            </div>
+          </div>
+
+          <div className="studio-contact-form-shell">
+            <ContactForm showTitle={false} />
           </div>
         </section>
       </Reveal>
@@ -973,16 +691,13 @@ function ContactPage() {
 
 function NotFoundPage() {
   return (
-    <section className="empty-state">
-      <p className="eyebrow">404</p>
-      <h1 className="section-title">This page slipped outside the studio map.</h1>
-      <p className="section-copy section-copy-wide">
-        The route you opened is not available. Use the link below to return to
-        the main experience.
-      </p>
-      <Link className="banner-cta glass-button" to="/">
-        <span>Return home</span>
-        <span className="banner-cta-disc">
+    <section className="studio-empty-state">
+      <p className="studio-eyebrow">404</p>
+      <h1 className="studio-page-title">That page is outside the current edit.</h1>
+      <p className="studio-page-summary">Head back to the homepage or the work.</p>
+      <Link className="studio-button studio-button-dark" to="/work">
+        <span>Go to work</span>
+        <span className="studio-button-disc">
           <ArrowIcon />
         </span>
       </Link>
@@ -990,7 +705,7 @@ function NotFoundPage() {
   )
 }
 
-function PageHero({
+function PageIntro({
   eyebrow,
   title,
   summary,
@@ -1000,24 +715,134 @@ function PageHero({
   summary: string
 }) {
   return (
-    <Reveal>
-      <section className="page-hero">
-        <div className="page-hero-copy">
-          <p className="eyebrow">{eyebrow}</p>
-          <h1 className="section-title page-hero-title">{title}</h1>
-          <p className="page-hero-summary">{summary}</p>
-        </div>
-      </section>
-    </Reveal>
+    <section className="studio-page-intro">
+      <p className="studio-eyebrow">{eyebrow}</p>
+      <h1 className="studio-page-title">{title}</h1>
+      <p className="studio-page-summary">{summary}</p>
+    </section>
   )
 }
 
-function CaseCopyBlock({ title, copy }: { title: string; copy: string }) {
+function StudioFeatureBlock({
+  project,
+  index,
+  onPreview,
+}: {
+  project: ProjectItem
+  index: number
+  onPreview: () => void
+}) {
+  const blockStyle = {
+    '--feature-accent': project.accent,
+    '--feature-surface': project.surface,
+  } as CSSProperties
+
   return (
-    <article className="case-copy-card">
-      <p className="eyebrow">{title}</p>
-      <p>{copy}</p>
+    <article
+      className={`studio-feature-block${index % 2 === 1 ? ' studio-feature-block-reverse' : ''}`}
+      style={blockStyle}
+    >
+      <button
+        aria-label={`Open ${project.title} preview`}
+        className="studio-feature-media"
+        onClick={onPreview}
+        type="button"
+      >
+        <ProjectPoster project={project} variant="feature" />
+      </button>
+
+      <div className="studio-feature-copy">
+        <div className="studio-feature-topline">
+          <span className="studio-feature-index">{String(index + 1).padStart(2, '0')}</span>
+          <span className="studio-chip">{project.categories[0]}</span>
+        </div>
+
+        <div className="studio-feature-head">
+          <h2 className="studio-feature-title">{project.title}</h2>
+          <p className="studio-feature-summary">{project.lead}</p>
+        </div>
+
+        <div className="studio-feature-meta">
+          <span>{project.client}</span>
+          <span>{project.year}</span>
+          <span>{project.services.slice(0, 2).join(' / ')}</span>
+        </div>
+
+        <div className="studio-work-card-actions">
+          <button className="studio-text-link" onClick={onPreview} type="button">
+            Preview
+          </button>
+          <Link className="studio-text-link" to={`/case-studies/${project.slug}`}>
+            Case study
+          </Link>
+        </div>
+      </div>
     </article>
+  )
+}
+
+function StudioServiceCard({
+  group,
+  index,
+  detailed = false,
+}: {
+  group: CapabilityGroup
+  index: number
+  detailed?: boolean
+}) {
+  return (
+    <article className="studio-service-card">
+      <span className="studio-service-card-index">{String(index + 1).padStart(2, '0')}</span>
+      <h3 className="studio-service-card-title">{group.title}</h3>
+      <p className="studio-service-card-copy">{group.copy}</p>
+      <p className="studio-service-card-list">{group.items.join(' / ')}</p>
+      {detailed ? (
+        <p className="studio-service-card-detail">
+          Typical deliverables: {group.items.join(', ')}.
+        </p>
+      ) : null}
+    </article>
+  )
+}
+
+function StudioPhaseCard({ step }: { step: ProcessStep }) {
+  return (
+    <article className="studio-phase-card">
+      <span className="studio-phase-card-step">{step.step}</span>
+      <h3 className="studio-phase-card-title">{step.title}</h3>
+      <p className="studio-phase-card-copy">{step.copy}</p>
+    </article>
+  )
+}
+
+function MarqueeBand({
+  items,
+  reverse = false,
+}: {
+  items: string[]
+  reverse?: boolean
+}) {
+  const repeatedItems = [...items, ...items, ...items]
+
+  return (
+    <div className={`studio-marquee-band${reverse ? ' studio-marquee-band-reverse' : ''}`}>
+      <div className="studio-marquee-inner">
+        <div className="studio-marquee-track">
+          {repeatedItems.map((item, index) => (
+            <span className="studio-marquee-item" key={`${item}-${index}`}>
+              {item}
+            </span>
+          ))}
+        </div>
+        <div aria-hidden="true" className="studio-marquee-track">
+          {repeatedItems.map((item, index) => (
+            <span className="studio-marquee-item" key={`${item}-${index}-duplicate`}>
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
   )
 }
 

@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1500" fill="none">
+  <rect width="1200" height="1500" fill="#F5F0E8"/>
+  <rect x="56" y="56" width="1088" height="1388" rx="40" stroke="#111111" stroke-opacity=".12" stroke-width="2"/>
+  <circle cx="932" cy="364" r="250" fill="url(#paint0_radial)"/>
+  <path d="M102 1170C206 962 382 834 624 814C808 798 958 858 1088 986V1442H102V1170Z" fill="#101010"/>
+  <rect x="120" y="184" width="308" height="414" rx="30" fill="#D8FF56"/>
+  <rect x="188" y="254" width="172" height="272" rx="86" fill="#101010"/>
+  <rect x="744" y="784" width="280" height="118" rx="28" fill="#D7C6FF"/>
+  <path d="M742 250H1028" stroke="#101010" stroke-width="10"/>
+  <path d="M742 308H988" stroke="#101010" stroke-opacity=".24" stroke-width="6"/>
+  <path d="M742 352H1038" stroke="#101010" stroke-opacity=".24" stroke-width="6"/>
+  <path d="M120 718H506" stroke="#101010" stroke-opacity=".12" stroke-width="2"/>
+  <path d="M120 748H506" stroke="#101010" stroke-opacity=".12" stroke-width="2"/>
+  <path d="M120 778H506" stroke="#101010" stroke-opacity=".12" stroke-width="2"/>
+  <g opacity=".7">
+    <path d="M786 104L1092 410" stroke="#101010" stroke-opacity=".08" stroke-width="2"/>
+    <path d="M726 164L1032 470" stroke="#101010" stroke-opacity=".08" stroke-width="2"/>
+    <path d="M666 224L972 530" stroke="#101010" stroke-opacity=".08" stroke-width="2"/>
+    <path d="M606 284L912 590" stroke="#101010" stroke-opacity=".08" stroke-width="2"/>
+  </g>
+  <text x="122" y="130" fill="#101010" font-family="Arial, Helvetica, sans-serif" font-size="38" letter-spacing="8">IDENTITY SYSTEM</text>
+  <text x="955" y="1362" fill="#F5F0E8" font-family="Arial, Helvetica, sans-serif" font-size="180" font-weight="700" text-anchor="end">01</text>
+  <defs>
+    <radialGradient id="paint0_radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(932 364) rotate(90) scale(250)">
+      <stop stop-color="#FFFFFF"/>
+      <stop offset=".68" stop-color="#FFFFFF" stop-opacity=".18"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>

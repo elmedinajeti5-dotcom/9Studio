@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1500" fill="none">
+  <rect width="1200" height="1500" fill="#111111"/>
+  <rect x="56" y="56" width="1088" height="1388" rx="40" stroke="#FFFFFF" stroke-opacity=".16" stroke-width="2"/>
+  <rect x="116" y="134" width="968" height="508" rx="40" fill="url(#paint0_linear)"/>
+  <path d="M122 928C274 708 452 598 658 598C856 598 1004 694 1080 886V1342H122V928Z" fill="#FFF7F0"/>
+  <circle cx="920" cy="1068" r="154" fill="#F6E54B"/>
+  <circle cx="870" cy="424" r="228" fill="#FFF7F0" fill-opacity=".18"/>
+  <path d="M202 236H610" stroke="#111111" stroke-width="12"/>
+  <path d="M202 286H530" stroke="#111111" stroke-opacity=".3" stroke-width="6"/>
+  <path d="M202 322H586" stroke="#111111" stroke-opacity=".3" stroke-width="6"/>
+  <path d="M176 776H1024" stroke="#FFF7F0" stroke-opacity=".22" stroke-width="2"/>
+  <path d="M176 828H1024" stroke="#FFF7F0" stroke-opacity=".22" stroke-width="2"/>
+  <path d="M176 880H1024" stroke="#FFF7F0" stroke-opacity=".22" stroke-width="2"/>
+  <path d="M176 932H1024" stroke="#FFF7F0" stroke-opacity=".22" stroke-width="2"/>
+  <path d="M836 1284L1084 1036" stroke="#111111" stroke-width="22"/>
+  <text x="180" y="1242" fill="#111111" font-family="Arial, Helvetica, sans-serif" font-size="140" font-weight="700">WEB</text>
+  <text x="180" y="1348" fill="#111111" font-family="Arial, Helvetica, sans-serif" font-size="38" letter-spacing="10">DIGITAL LAUNCH</text>
+  <defs>
+    <linearGradient id="paint0_linear" x1="116" y1="134" x2="1084" y2="642" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFB5A8"/>
+      <stop offset=".5" stop-color="#FFD8B2"/>
+      <stop offset="1" stop-color="#DDEBFF"/>
+    </linearGradient>
+  </defs>
+</svg>

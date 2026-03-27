@@ -1,3 +1,7 @@
+import placeholderWork1 from './assets/placeholder-work-1.svg'
+import placeholderWork2 from './assets/placeholder-work-2.svg'
+import placeholderWork3 from './assets/placeholder-work-3.svg'
+
 export type NavItem = {
   label: string
   href: string
@@ -18,6 +22,9 @@ export type ProjectItem = {
   title: string
   client: string
   year: string
+  image: string
+  accent: string
+  surface: string
   lead: string
   categories: string[]
   summary: string
@@ -62,46 +69,42 @@ export type ProcessStep = {
 }
 
 export const primaryNav: NavItem[] = [
-  { label: 'Studio', href: '/studio' },
-  { label: 'Services', href: '/services' },
   { label: 'Work', href: '/work' },
-  { label: 'Process', href: '/process' },
+  { label: 'Services', href: '/services' },
+  { label: 'Contact', href: '/contact' },
 ]
 
 export const siteMapNav: NavItem[] = [
   { label: 'Home', href: '/' },
-  { label: 'Studio', href: '/studio' },
-  { label: 'Services', href: '/services' },
   { label: 'Work', href: '/work' },
-  { label: 'Process', href: '/process' },
-  { label: 'Insights', href: '/insights' },
+  { label: 'Services', href: '/services' },
   { label: 'Contact', href: '/contact' },
 ]
 
 export const capabilityGroups: CapabilityGroup[] = [
   {
-    title: 'Design',
+    title: 'Brand Identity',
     copy:
-      'Identity direction, visual systems, and interface design shaped to make digital brands feel precise and recognisable.',
-    items: ['Graphic Design', 'UI / UX'],
+      'Logos, type, art direction, and visual systems that make the work feel sharper and easier to recognise.',
+    items: ['Identity Systems', 'Art Direction'],
   },
   {
-    title: 'Development',
+    title: 'Web Design',
     copy:
-      'Design-led builds and launch platforms delivered with calm technical rigor and careful implementation detail.',
-    items: ['Web Development', 'Full-Stack'],
+      'Websites and digital experiences built to feel clean, fast, and visually confident from the first screen.',
+    items: ['Creative Direction', 'Creative Development'],
   },
   {
-    title: 'Growth',
+    title: 'Campaign Design',
     copy:
-      'Search, campaigns, and social rollout shaped to keep momentum building after the product ships.',
-    items: ['Digital Marketing', 'SEO', 'Social Media'],
+      'Launch assets, decks, social sets, and campaign systems built to keep a release visually tight.',
+    items: ['Launch Assets', 'Social Kits', 'Deck Design'],
   },
   {
-    title: 'Content',
+    title: 'Motion',
     copy:
-      'Editing and motion content that extends the brand with the same editorial precision as the product experience.',
-    items: ['Video Editing', 'Motion Graphics'],
+      'Loops, edits, and motion graphics that add rhythm without making the work feel overproduced.',
+    items: ['Motion Graphics', 'Video Edits'],
   },
 ]
 
@@ -138,10 +141,13 @@ export const projects: ProjectItem[] = [
     title: 'TAYLORMADE',
     client: 'TaylorMade Systems',
     year: '2025',
-    lead: 'Product launch platform for an AI operations suite.',
+    image: placeholderWork1,
+    accent: '#d8ff56',
+    surface: '#f3efe7',
+    lead: 'Launch site and campaign system for an AI operations suite.',
     categories: ['Product Design', 'Web Development', 'Digital Strategy'],
     summary:
-      'A monochrome launch environment designed to unify product storytelling, UX motion, and conversion architecture for a global release.',
+      'A sharp black-and-white launch system that unified product story, motion, and conversion.',
     services: [
       'Product Design',
       'UI / UX Design',
@@ -155,34 +161,34 @@ export const projects: ProjectItem[] = [
       { label: 'Performance score', value: '98' },
     ],
     overview:
-      'TaylorMade needed a premium product launch platform that could explain a technical AI suite with unusual clarity while still feeling emotionally charged and cinematic.',
+      'TaylorMade needed one launch surface that could explain a technical AI suite quickly.',
     challenge:
-      'The previous ecosystem was fragmented across sales decks, static pages, and disconnected campaign materials, making it difficult to communicate one coherent product story.',
+      'The old story lived across decks, scattered pages, and inconsistent visuals.',
     strategy:
-      'We combined product architecture, launch messaging, and a high-contrast editorial system into a single platform that could support sales, marketing, and onboarding simultaneously.',
+      'We turned messaging, product flow, and motion into one simple launch narrative.',
     design:
-      'The experience used disciplined typography, generous negative space, and monochrome motion to create a confident narrative rhythm without sacrificing usability.',
+      'Oversized type, hard contrast, and modular sections kept the experience graphic and legible.',
     development:
-      'We built a modular front-end system focused on performance, reusable motion patterns, and flexible content slots for rapid campaign iteration.',
+      'A modular front end made the system fast to ship and easy to update.',
     launch:
-      'Launch delivery included product pages, motion assets, a sales demo environment, and analytics instrumentation for team-wide reporting.',
+      'The release included campaign pages, motion assets, and a reusable launch toolkit.',
     results:
-      'The new platform improved launch consistency, accelerated the sales narrative, and gave internal teams a single source of truth for campaign deployment.',
+      'The launch became easier to understand, easier to sell, and easier to reuse.',
     breakdown: [
       {
         title: 'Narrative system',
         copy:
-          'Headlines, proof points, and motion cues were designed together so every scroll moment moved the story forward with precision.',
+          'Headlines, proof points, and motion were built as one sequence.',
       },
       {
         title: 'Interface clarity',
         copy:
-          'Dense product information was reorganized into modular sections, interactive demos, and structured hierarchy that made technical ideas accessible.',
+          'Complex product information was cut into simpler, faster-reading sections.',
       },
       {
         title: 'Launch tooling',
         copy:
-          'Teams received editable campaign modules, analytics hooks, and a reusable design language for future releases.',
+          'The team left with reusable launch parts instead of one-off pages.',
       },
     ],
   },
@@ -191,10 +197,13 @@ export const projects: ProjectItem[] = [
     title: 'NORTHSTAR',
     client: 'Northstar Mobility',
     year: '2024',
-    lead: 'Brand and growth relaunch for a mobility intelligence platform.',
+    image: placeholderWork2,
+    accent: '#ffcabd',
+    surface: '#f8eee6',
+    lead: 'Brand relaunch and campaign system for a mobility platform.',
     categories: ['Branding', 'Marketing Campaigns', 'Motion Graphics'],
     summary:
-      'A full identity and growth system built to reposition a complex mobility product for investors, enterprise buyers, and product teams.',
+      'A cleaner identity and rollout system built to reposition a complex product.',
     services: [
       'Graphic Design',
       'Brand Identity Design',
@@ -208,34 +217,34 @@ export const projects: ProjectItem[] = [
       { label: 'Campaign completion', value: '91%' },
     ],
     overview:
-      'Northstar had a powerful platform but no unified brand language capable of supporting board presentations, enterprise marketing, and digital product storytelling.',
+      'Northstar had a strong product but no visual system that could hold every touchpoint together.',
     challenge:
-      'The product felt utilitarian and fragmented, which limited both perceived maturity and clarity during high-stakes presentations.',
+      'The brand felt fragmented in investor decks, marketing pages, and motion.',
     strategy:
-      'We rebuilt the identity around a disciplined narrative system, then extended it across campaign pages, investor materials, and motion-led product explainers.',
+      'We built one identity system and pushed it through campaign, deck, and motion work.',
     design:
-      'The visual direction balanced minimal structure with atmospheric monochrome imagery, allowing the brand to feel future-facing without becoming generic.',
+      'The direction mixed strict typography with atmospheric image treatment and motion.',
     development:
-      'Campaign delivery focused on fast landing environments, animation systems, and CMS-ready blocks for the internal marketing team.',
+      'Campaign pages were built as fast, reusable blocks for the internal team.',
     launch:
-      'The relaunch included a brand site, launch campaign toolkit, investor assets, and organic social templates for the first quarter after release.',
+      'Delivery covered the brand site, campaign toolkit, and first-wave rollout assets.',
     results:
-      'Northstar gained a sharper market position, stronger internal alignment, and a more persuasive digital story across every audience touchpoint.',
+      'Northstar left with a sharper story and a more consistent public face.',
     breakdown: [
       {
         title: 'Identity rebuild',
         copy:
-          'We defined a visual language that could move seamlessly from investor decks to motion campaigns and landing pages.',
+          'One visual language now runs through every launch surface.',
       },
       {
         title: 'Campaign framework',
         copy:
-          'Messaging architecture was translated into modular content templates that allowed the brand team to ship quickly and consistently.',
+          'Templates made it easier for the team to publish quickly without drift.',
       },
       {
         title: 'Motion toolkit',
         copy:
-          'Short-form films, social loops, and product sequences brought coherence to a previously fragmented release process.',
+          'Motion turned the relaunch into a single, coherent rollout.',
       },
     ],
   },
@@ -244,10 +253,13 @@ export const projects: ProjectItem[] = [
     title: 'LUMENOS',
     client: 'Lumenos Health',
     year: '2026',
-    lead: 'A regulated health platform redesigned for trust, speed, and product adoption.',
+    image: placeholderWork3,
+    accent: '#b7d2ff',
+    surface: '#edf5f1',
+    lead: 'A health platform redesign focused on trust, clarity, and speed.',
     categories: ['Web Development', 'Product Design', 'Branding'],
     summary:
-      'A full experience redesign combining accessibility, product UX, and engineering modernization for a healthcare intelligence product.',
+      'A product and brand refresh that made a regulated platform feel calmer and easier to use.',
     services: [
       'UI / UX Design',
       'Product Design',
@@ -261,34 +273,34 @@ export const projects: ProjectItem[] = [
       { label: 'Organic growth', value: '+54%' },
     ],
     overview:
-      'Lumenos needed to modernize a trust-critical health product without losing the clarity, compliance, and accessibility required by its users.',
+      'Lumenos needed a calmer experience without losing compliance or usability.',
     challenge:
-      'Legacy navigation, inconsistent brand assets, and underperforming templates created friction across both acquisition and product onboarding.',
+      'Legacy templates and weak hierarchy created friction across marketing and onboarding.',
     strategy:
-      'We aligned brand, UX, content structure, and technical modernization into one phased redesign that balanced regulation with a premium user experience.',
+      'We aligned brand, UX, content, and front-end cleanup into one phased redesign.',
     design:
-      'The system used elevated typography, measured motion, and modular interface patterns to create confidence without visual noise.',
+      'The system used calmer typography, cleaner modules, and less visual noise.',
     development:
-      'Front-end implementation prioritized accessibility, performance budgets, and a scalable component system that internal teams could extend.',
+      'The build prioritized accessibility, performance, and reusable components.',
     launch:
-      'Release planning included SEO migration, analytics QA, CMS training, and a staged rollout to protect traffic and user trust.',
+      'Launch planning covered migration, QA, and a staged rollout.',
     results:
-      'Lumenos launched with stronger product adoption, improved organic discovery, and a clearer brand position across both marketing and product touchpoints.',
+      'Lumenos shipped with better adoption, stronger search visibility, and a clearer brand.',
     breakdown: [
       {
         title: 'Accessibility first',
         copy:
-          'Interaction patterns, hierarchy, and content semantics were designed to exceed baseline accessibility requirements without compromising elegance.',
+          'Accessibility shaped the layout from the start, not as a final check.',
       },
       {
         title: 'Scalable system',
         copy:
-          'Reusable templates and a disciplined component library gave the product team speed without diluting quality.',
+          'Reusable templates gave the product team speed without losing consistency.',
       },
       {
         title: 'SEO continuity',
         copy:
-          'Migration planning and content structure helped the new experience launch without sacrificing long-term search performance.',
+          'The migration preserved search performance while the new site rolled out.',
       },
     ],
   },

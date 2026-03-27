@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1500" fill="none">
+  <rect width="1200" height="1500" fill="#F0F6F1"/>
+  <rect x="56" y="56" width="1088" height="1388" rx="40" stroke="#101010" stroke-opacity=".1" stroke-width="2"/>
+  <ellipse cx="422" cy="382" rx="278" ry="236" fill="#B4D1FF"/>
+  <rect x="694" y="172" width="296" height="386" rx="148" fill="#101010"/>
+  <rect x="782" y="274" width="120" height="184" rx="60" fill="#F0F6F1"/>
+  <path d="M118 834C270 756 404 718 520 718C646 718 776 760 918 844C1014 902 1070 940 1082 958V1442H118V834Z" fill="#101010"/>
+  <rect x="168" y="978" width="220" height="220" rx="26" fill="#F15A29"/>
+  <rect x="812" y="1012" width="164" height="164" rx="82" fill="#B4D1FF"/>
+  <g opacity=".5">
+    <path d="M142 198H502" stroke="#101010" stroke-opacity=".14" stroke-width="2"/>
+    <path d="M142 242H502" stroke="#101010" stroke-opacity=".14" stroke-width="2"/>
+    <path d="M142 286H502" stroke="#101010" stroke-opacity=".14" stroke-width="2"/>
+    <path d="M142 330H502" stroke="#101010" stroke-opacity=".14" stroke-width="2"/>
+    <path d="M142 374H502" stroke="#101010" stroke-opacity=".14" stroke-width="2"/>
+  </g>
+  <path d="M706 690H1018" stroke="#101010" stroke-width="12"/>
+  <path d="M706 736H980" stroke="#101010" stroke-opacity=".28" stroke-width="6"/>
+  <path d="M706 770H1038" stroke="#101010" stroke-opacity=".28" stroke-width="6"/>
+  <text x="156" y="145" fill="#101010" font-family="Arial, Helvetica, sans-serif" font-size="38" letter-spacing="8">CAMPAIGN WORLD</text>
+  <text x="1042" y="1366" fill="#F0F6F1" font-family="Arial, Helvetica, sans-serif" font-size="170" font-weight="700" text-anchor="end">03</text>
+</svg>

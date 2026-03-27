@@ -1,5 +1,4 @@
 import type { CSSProperties } from 'react'
-import heroImage from '../assets/hero-9.webp'
 
 const strokeProps = {
   stroke: 'currentColor',
@@ -13,7 +12,8 @@ export function HeroArtwork({ style }: { style?: CSSProperties }) {
     <div className="hero-art" aria-hidden="true" style={style}>
       <div className="hero-nine-scene">
         <span className="hero-nine-shadow" />
-        <img alt="" className="hero-nine-image" src={heroImage} />
+        <span className="hero-nine-image hero-nine-image-shape" />
+        <span className="hero-nine-image hero-nine-image-shape hero-nine-image-shape-secondary" />
       </div>
     </div>
   )
