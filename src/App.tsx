@@ -47,6 +47,31 @@ const marqueeClients = [
   'Blank State',
 ]
 
+const surfaceThemes = {
+  default: '#fbf8f1',
+  paper: '#fbf8f1',
+  ivory: '#fffdf7',
+  sand: '#f8f1dd',
+  blush: '#fee9df',
+  sky: '#e9f0ff',
+  sage: '#edf7ef',
+  lilac: '#f1ecff',
+  mist: '#eff5ff',
+} as const
+
+type SurfaceThemeName = keyof typeof surfaceThemes
+
+function applySurfaceTheme(themeName: string | null | undefined) {
+  if (typeof document === 'undefined') {
+    return
+  }
+
+  const surface =
+    surfaceThemes[(themeName ?? 'default') as SurfaceThemeName] ?? surfaceThemes.default
+
+  document.documentElement.style.setProperty('--page-surface', surface)
+}
+
 function App() {
   return (
     <Routes>
@@ -124,6 +149,65 @@ function StudioLayout() {
     }
   }, [mobileMenuOpen])
 
+  useEffect(() => {
+    const themedSections = Array.from(document.querySelectorAll<HTMLElement>('.site [data-surface]'))
+    const surfaceSequence = themedSections
+      .map((section) => section.dataset.surface)
+      .filter(
+        (surface, index, surfaces): surface is string =>
+          Boolean(surface) && surface !== surfaces[index - 1],
+      )
+
+    if (surfaceSequence.length === 0) {
+      applySurfaceTheme('default')
+      return undefined
+    }
+
+    let frameId = 0
+
+    const updateSurface = () => {
+      frameId = 0
+      const totalScrollable = Math.max(
+        document.documentElement.scrollHeight - window.innerHeight,
+        1,
+      )
+      const adjustedOffset = window.innerHeight * 0.12
+      const progress = Math.min(
+        (window.scrollY + adjustedOffset) / (totalScrollable + adjustedOffset),
+        0.999999,
+      )
+      const activeIndex = Math.min(
+        surfaceSequence.length - 1,
+        Math.floor(progress * surfaceSequence.length),
+      )
+
+      applySurfaceTheme(surfaceSequence[activeIndex])
+    }
+
+    const scheduleSurfaceUpdate = () => {
+      if (frameId !== 0) {
+        return
+      }
+
+      frameId = window.requestAnimationFrame(updateSurface)
+    }
+
+    applySurfaceTheme('default')
+    scheduleSurfaceUpdate()
+
+    window.addEventListener('scroll', scheduleSurfaceUpdate, { passive: true })
+    window.addEventListener('resize', scheduleSurfaceUpdate)
+
+    return () => {
+      if (frameId !== 0) {
+        window.cancelAnimationFrame(frameId)
+      }
+
+      window.removeEventListener('scroll', scheduleSurfaceUpdate)
+      window.removeEventListener('resize', scheduleSurfaceUpdate)
+    }
+  }, [location.pathname])
+
   const headerShellClassName = [
     'header-shell',
     mobileMenuOpen ? 'header-shell-menu-open' : '',
@@ -198,7 +282,7 @@ function StudioLayout() {
           </div>
         </div>
 
-        {location.pathname === '/' ? null : (
+        {location.pathname === '/' || location.pathname === '/contact' ? null : (
           <Link className="studio-float-cta" to="/contact">
             <span>Start your project</span>
             <span className="studio-float-cta-disc">
@@ -214,16 +298,21 @@ function StudioLayout() {
           <Outlet />
         </main>
 
-        <footer className="footer" id="footer">
+        <footer
+          className="footer studio-curated-section"
+          data-gallery-label="Final note"
+          data-surface="lilac"
+          id="footer"
+        >
           <div className="footer-left">
-            <p className="footer-eyebrow">Original student portfolio template</p>
+            <p className="footer-eyebrow">Independent creative studio</p>
             <h2 className="footer-title">Let&apos;s make the work impossible to miss.</h2>
             <Link className="footer-email" to="/contact">
               hello@yourstudio.com
             </Link>
             <p className="footer-note">
-              Swap the placeholder projects, imagery, and studio details with your own work as
-              you build out the portfolio.
+              Replace the sample projects, imagery, and studio details with your own work as the
+              portfolio grows.
             </p>
           </div>
 
@@ -257,13 +346,19 @@ function HomePage() {
   return (
     <>
       <Reveal>
-        <section className="studio-home-hero">
+        <section
+          className="studio-home-hero studio-curated-section"
+          data-gallery-label="Opening frame"
+          data-surface="paper"
+        >
           <div className="studio-home-hero-shell">
             <div className="studio-home-hero-body">
-              <h1 className="studio-home-hero-title">
-                From concept <Accent>to</Accent> creation: we bring <Accent>your</Accent>{' '}
-                brand to life.
-              </h1>
+              <div className="studio-home-hero-stage">
+                <h1 className="studio-home-hero-title">
+                  From concept <Accent>to</Accent> creation: we bring <Accent>your</Accent>{' '}
+                  brand to life.
+                </h1>
+              </div>
             </div>
 
             <div className="studio-home-hero-foot">
@@ -284,9 +379,13 @@ function HomePage() {
       </Reveal>
 
       <Reveal>
-        <section className="studio-showreel">
+        <section
+          className="studio-showreel studio-curated-section"
+          data-gallery-label="Featured screening"
+          data-surface="ivory"
+        >
           <div className="studio-showreel-head">
-            <p className="studio-eyebrow">Showreel / placeholder media</p>
+            <p className="studio-eyebrow">Showreel / featured project</p>
             <Link className="studio-text-link" to="/work">
               Browse projects
             </Link>
@@ -306,15 +405,19 @@ function HomePage() {
           <div className="studio-showreel-copy">
             <h2 className="studio-section-title">One stage for the strongest frames.</h2>
             <p className="studio-section-note">
-              Use this area for a reel, campaign film, or standout project teaser. It currently
-              uses original placeholder art with the same proportions you can replace later.
+              Use this space for a reel, campaign film, or standout project teaser with the same
+              proportions as the final media.
             </p>
           </div>
         </section>
       </Reveal>
 
       <Reveal>
-        <section className="studio-statement">
+        <section
+          className="studio-statement studio-curated-section"
+          data-gallery-label="Curator note"
+          data-surface="blush"
+        >
           <p className="studio-eyebrow">Approach</p>
           <h2 className="studio-statement-title">
             Big type, clean grids, clear images. Less explaining, <Accent>more</Accent>{' '}
@@ -328,7 +431,12 @@ function HomePage() {
       </Reveal>
 
       <Reveal>
-        <section className="studio-section" id="works">
+        <section
+          className="studio-section studio-curated-section"
+          data-gallery-label="Selected works"
+          data-surface="sky"
+          id="works"
+        >
           <div className="studio-section-head">
             <div>
               <p className="studio-eyebrow">Selected work</p>
@@ -356,7 +464,12 @@ function HomePage() {
       </Reveal>
 
       <Reveal>
-        <section className="studio-marquee-stack" aria-label="Studio services and clients">
+        <section
+          aria-label="Studio services and clients"
+          className="studio-marquee-stack studio-curated-section"
+          data-gallery-label="Studio circle"
+          data-surface="sage"
+        >
           <MarqueeBand items={marqueeServices} />
           <MarqueeBand items={marqueeClients} reverse />
           <MarqueeBand items={[...socialLinks.map((link) => link.label), 'Original content only']} />
@@ -364,10 +477,14 @@ function HomePage() {
       </Reveal>
 
       <Reveal>
-        <section className="studio-newsletter">
+        <section
+          className="studio-newsletter studio-curated-section"
+          data-gallery-label="Private list"
+          data-surface="sand"
+        >
           <div className="studio-newsletter-copy">
             <p className="studio-eyebrow">Stay in the loop</p>
-            <h2 className="studio-section-title">A simple spot for updates, releases, or contact.</h2>
+            <h2 className="studio-section-title">A quieter place for updates, releases, or contact.</h2>
             <p className="studio-section-note">
               Keep this as a newsletter signup, or swap it for a booking form or project inquiry.
             </p>
@@ -408,6 +525,8 @@ function WorkPage() {
       <Reveal>
         <PageIntro
           eyebrow="Work"
+          galleryLabel="Work index"
+          surface="paper"
           summary="A compact portfolio view with placeholder projects you can replace one by one."
           title={
             <>
@@ -418,7 +537,12 @@ function WorkPage() {
       </Reveal>
 
       <Reveal>
-        <section className="studio-portfolio-grid" id="project-grid">
+        <section
+          className="studio-portfolio-grid studio-curated-section"
+          data-gallery-label="Archive grid"
+          data-surface="sky"
+          id="project-grid"
+        >
           {projects.map((project, index) => (
             <PortfolioGridCard
               featured={index === 0}
@@ -445,6 +569,8 @@ function AboutPage() {
       <Reveal>
         <PageIntro
           eyebrow="About"
+          galleryLabel="Studio preface"
+          surface="paper"
           summary="A small studio setup for identity, web, and campaign work, presented in a cleaner portfolio-first structure."
           title={
             <>
@@ -455,7 +581,11 @@ function AboutPage() {
       </Reveal>
 
       <Reveal>
-        <section className="studio-about-grid">
+        <section
+          className="studio-about-grid studio-curated-section"
+          data-gallery-label="Studio profile"
+          data-surface="sage"
+        >
           <div className="studio-about-copy">
             <p className="studio-eyebrow">Studio profile</p>
             <h2 className="studio-section-title">
@@ -480,7 +610,11 @@ function AboutPage() {
       </Reveal>
 
       <Reveal>
-        <section className="studio-service-card-grid studio-service-card-grid-page">
+        <section
+          className="studio-service-card-grid studio-service-card-grid-page studio-curated-section"
+          data-gallery-label="Capabilities"
+          data-surface="sand"
+        >
           {capabilityGroups.map((group, index) => (
             <StudioServiceCard detailed group={group} index={index} key={group.title} />
           ))}
@@ -488,7 +622,11 @@ function AboutPage() {
       </Reveal>
 
       <Reveal>
-        <section className="studio-phase-grid">
+        <section
+          className="studio-phase-grid studio-curated-section"
+          data-gallery-label="Process"
+          data-surface="sky"
+        >
           {processSteps.map((step) => (
             <StudioPhaseCard key={step.step} step={step} />
           ))}
@@ -496,7 +634,11 @@ function AboutPage() {
       </Reveal>
 
       <Reveal>
-        <section className="studio-banner studio-banner-soft">
+        <section
+          className="studio-banner studio-banner-soft studio-curated-section"
+          data-gallery-label="Closing note"
+          data-surface="lilac"
+        >
           <div>
             <p className="studio-eyebrow">Ready to customize</p>
             <h2 className="studio-banner-title">
@@ -529,14 +671,20 @@ function CaseStudyPage() {
     <>
       <Reveal>
         <PageIntro
+          galleryLabel="Case preface"
           eyebrow={`${project.client} / ${project.year}`}
+          surface="paper"
           summary={project.lead}
           title={project.title}
         />
       </Reveal>
 
       <Reveal>
-        <section className="studio-case-hero">
+        <section
+          className="studio-case-hero studio-curated-section"
+          data-gallery-label="Case overview"
+          data-surface="mist"
+        >
           <button
             aria-label={`Open ${project.title} preview`}
             className="studio-case-poster"
@@ -581,7 +729,11 @@ function CaseStudyPage() {
       </Reveal>
 
       <Reveal>
-        <section className="studio-case-story">
+        <section
+          className="studio-case-story studio-curated-section"
+          data-gallery-label="Written notes"
+          data-surface="sand"
+        >
           <article className="studio-case-card">
             <p className="studio-eyebrow">Summary</p>
             <p>{project.summary}</p>
@@ -598,7 +750,11 @@ function CaseStudyPage() {
       </Reveal>
 
       <Reveal>
-        <section className="studio-case-sequence">
+        <section
+          className="studio-case-sequence studio-curated-section"
+          data-gallery-label="Image sequence"
+          data-surface="sage"
+        >
           {project.breakdown.map((section, index) => (
             <CaseStudySplit
               copy={section.copy}
@@ -612,7 +768,11 @@ function CaseStudyPage() {
       </Reveal>
 
       <Reveal>
-        <section className="studio-metric-grid">
+        <section
+          className="studio-metric-grid studio-curated-section"
+          data-gallery-label="Project impact"
+          data-surface="sky"
+        >
           {project.metrics.map((metric) => (
             <article className="studio-metric-card" key={metric.label}>
               <span>{metric.label}</span>
@@ -635,6 +795,8 @@ function ContactPage() {
       <Reveal>
         <PageIntro
           eyebrow="Contact"
+          galleryLabel="Open brief"
+          surface="paper"
           summary="A short brief, a few references, or the first rough idea is enough to begin."
           title={
             <>
@@ -645,7 +807,11 @@ function ContactPage() {
       </Reveal>
 
       <Reveal>
-        <section className="studio-contact">
+        <section
+          className="studio-contact studio-curated-section"
+          data-gallery-label="Open brief"
+          data-surface="blush"
+        >
           <div className="studio-contact-copy">
             <p className="studio-eyebrow">Studio email</p>
             <a className="studio-contact-mail" href="mailto:hello@yourstudio.com">
@@ -681,7 +847,11 @@ function ContactPage() {
 
 function NotFoundPage() {
   return (
-    <section className="studio-empty-state">
+    <section
+      className="studio-empty-state studio-curated-section"
+      data-gallery-label="Not found"
+      data-surface="paper"
+    >
       <p className="studio-eyebrow">404</p>
       <h1 className="studio-page-title">That page is outside the current edit.</h1>
       <p className="studio-page-summary">Head back to the homepage or browse the work.</p>
@@ -697,15 +867,23 @@ function NotFoundPage() {
 
 function PageIntro({
   eyebrow,
+  galleryLabel,
   title,
   summary,
+  surface = 'paper',
 }: {
   eyebrow: string
+  galleryLabel?: string
   title: ReactNode
   summary: ReactNode
+  surface?: SurfaceThemeName
 }) {
   return (
-    <section className="studio-page-intro">
+    <section
+      className="studio-page-intro studio-curated-section"
+      data-gallery-label={galleryLabel ?? eyebrow}
+      data-surface={surface}
+    >
       <p className="studio-eyebrow">{eyebrow}</p>
       <div className="studio-page-intro-grid">
         <h1 className="studio-page-title">{title}</h1>
